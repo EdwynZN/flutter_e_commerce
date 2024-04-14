@@ -39,7 +39,6 @@ class UserAvatar extends HookConsumerWidget {
         if (user == null) {
           return;
         }
-        //ref.read(authServiceProvider.notifier).logout();
         showModal(
           context: context,
           configuration: const FadeSlideConfiguration(

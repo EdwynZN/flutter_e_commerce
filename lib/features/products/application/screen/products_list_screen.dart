@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/common/widget/avatar_user.dart';
-import 'package:flutter_e_commerce/common/widget/car_icon.dart';
+import 'package:flutter_e_commerce/common/widget/cart_icon.dart';
 import 'package:flutter_e_commerce/features/products/application/controller/products_provider.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/product_tile.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/search_bar.dart';

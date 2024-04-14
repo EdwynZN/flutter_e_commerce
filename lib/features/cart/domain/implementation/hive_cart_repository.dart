@@ -39,6 +39,9 @@ class HiveCartRepository implements CartRepository {
       final lastIndex = box.length + 1;
       item = item.copyWith(id: lastIndex);
     }
+    if (item.quantity < 1) {
+      return deleteItem(item.id);
+    }
     await box.put(item.id, item);
     return getAll();
   }
@@ -64,6 +67,9 @@ class HiveCartRepository implements CartRepository {
 
   @override
   Future<Cart> updateQuantity({required int id, required int quantity}) async {
+    if (quantity < 1) {
+      return deleteItem(id);
+    }
     final box = await _box;
     final item = box.get(id);
     if (item != null) {

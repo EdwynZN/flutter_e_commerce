@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_e_commerce/common/widget/cart_card.dart';
 import 'package:flutter_e_commerce/common/widget/page_indicator.dart';
 import 'package:flutter_e_commerce/features/products/application/controller/single_product_provider.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/price_container.dart';
@@ -47,6 +48,8 @@ class ProductScreen extends HookConsumerWidget {
                   count: data.images.length,
                 ),
               ],
+              gap16,
+              Center(child: CartCard(productId: id)),
               const Divider(height: 48.0, indent: 16.0, endIndent: 16.0),
               if (data.description != null)
                 Padding(

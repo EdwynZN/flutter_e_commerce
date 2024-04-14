@@ -153,5 +153,130 @@ class _ProductProviderElement extends AutoDisposeFutureProviderElement<Product>
   @override
   int get id => (origin as ProductProvider).id;
 }
+
+String _$itemHash() => r'd76531378967f9c8c8acbbe844d8950addc41d75';
+
+/// See also [item].
+@ProviderFor(item)
+const itemProvider = ItemFamily();
+
+/// See also [item].
+class ItemFamily extends Family<AsyncValue<Item>> {
+  /// See also [item].
+  const ItemFamily();
+
+  /// See also [item].
+  ItemProvider call({
+    required int id,
+  }) {
+    return ItemProvider(
+      id: id,
+    );
+  }
+
+  @override
+  ItemProvider getProviderOverride(
+    covariant ItemProvider provider,
+  ) {
+    return call(
+      id: provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'itemProvider';
+}
+
+/// See also [item].
+class ItemProvider extends AutoDisposeFutureProvider<Item> {
+  /// See also [item].
+  ItemProvider({
+    required int id,
+  }) : this._internal(
+          (ref) => item(
+            ref as ItemRef,
+            id: id,
+          ),
+          from: itemProvider,
+          name: r'itemProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product') ? null : _$itemHash,
+          dependencies: ItemFamily._dependencies,
+          allTransitiveDependencies: ItemFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  ItemProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final int id;
+
+  @override
+  Override overrideWith(
+    FutureOr<Item> Function(ItemRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ItemProvider._internal(
+        (ref) => create(ref as ItemRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Item> createElement() {
+    return _ItemProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ItemProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ItemRef on AutoDisposeFutureProviderRef<Item> {
+  /// The parameter `id` of this provider.
+  int get id;
+}
+
+class _ItemProviderElement extends AutoDisposeFutureProviderElement<Item>
+    with ItemRef {
+  _ItemProviderElement(super.provider);
+
+  @override
+  int get id => (origin as ItemProvider).id;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

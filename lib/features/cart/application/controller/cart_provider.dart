@@ -46,6 +46,19 @@ class CartController extends AutoDisposeAsyncNotifier<Cart> {
     state = newCart.copyWithPrevious(state);
   }
 
+  Future<void> removeItem({
+    required int id,
+  }) async {
+    if (state.isLoading) {
+      return;
+    }
+    state = const AsyncLoading<Cart>().copyWithPrevious(state);
+    final newCart = await AsyncValue.guard(() async {
+      return _repository.deleteItem(id);
+    });
+    state = newCart.copyWithPrevious(state);
+  }
+
   Future<void> changeQuantity({
     required int purchaseId,
     required int quantity,

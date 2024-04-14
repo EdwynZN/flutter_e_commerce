@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
+import 'package:flutter_e_commerce/features/cart/application/controller/cart_provider.dart';
 import 'package:flutter_e_commerce/features/products/application/controller/products_provider.dart';
+import 'package:flutter_e_commerce/features/products/application/model/item.dart';
 import 'package:flutter_e_commerce/features/products/domain/model/product.dart';
 import 'package:flutter_e_commerce/features/products/domain/product_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,4 +20,24 @@ Future<Product> product(ProductRef ref, {required int id}) async {
   }
   final ProductRepository repository = ref.watch(productRepositoryProvider);
   return repository.detail(id: id);
+}
+
+@riverpod
+Future<Item> item(ItemRef ref, {required int id}) async {
+  final product = await ref.watch(productProvider(id: id).future);
+  final cart = await ref.watch(cartControllerProvider.future);
+  final findItem =
+      cart.items.firstWhereOrNull((cb) => cb.product.id == product.id);
+  if (findItem == null) {
+    return Item(
+      product: product,
+      quantity: 0,
+      id: 0,
+    );
+  }
+  return Item(
+    product: product,
+    id: findItem.id,
+    quantity: findItem.quantity,
+  );
 }
