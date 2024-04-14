@@ -39,23 +39,23 @@ GoRouter router(RouterRef ref) {
     routerNeglect: false,
     initialLocation: '/',
     observers: const [],
+    redirect: (context, state) {
+      final session = listenable.value;
+      if (session == null) {
+        return null;
+      }
+      final path = state.uri.path;
+      return switch (session) {
+        _SessionEnum.needsAuth =>
+          path.startsWith('/auth') ? null : '/auth/sign-in',
+        _SessionEnum.isLoggedIn =>
+          path.startsWith('/auth') ? '/home/products' : null,
+      };
+    },
     routes: [
       GoRoute(
         path: '/',
         builder: (context, state) => const SplashScreen(),
-        redirect: (context, state) {
-          final session = listenable.value;
-          if (session == null) {
-            return null;
-          }
-          final path = state.uri.path;
-          return switch (session) {
-            _SessionEnum.needsAuth =>
-              path.startsWith('/auth') ? null : '/auth/sign-in',
-            _SessionEnum.isLoggedIn =>
-              path.startsWith('/auth') ? '/home/products' : null,
-          };
-        },
         routes: [
           ShellRoute(
             builder: (context, state, child) => child,

@@ -4,7 +4,18 @@ part 'product.freezed.dart';
 part 'product.g.dart';
 
 Object? _mapImages(Map<dynamic, dynamic> map, String key) {
-  return (map[key] as List).map((e) => {'image': e}).toList();
+  /// The api may return the images url within brackets and double quotes,
+  /// which is a weird behavior so this mapping is to fix the url
+  /// 
+  /// before:
+  /// '[\"https://i.imgur.com/4lTaHfF.jpeg\"'
+  /// 
+  /// after:
+  /// 'https://i.imgur.com/4lTaHfF.jpeg'
+  final excludedRegex = RegExp(r'\[|\]|\"');
+  return (map[key] as List)
+      .map((e) => {'image': (e as String).replaceAll(excludedRegex, '')})
+      .toList();
 }
 
 @freezed

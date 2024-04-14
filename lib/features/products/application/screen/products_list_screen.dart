@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/features/products/application/controller/products_provider.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/product_tile.dart';
+import 'package:flutter_e_commerce/features/products/application/widget/search_bar.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProductListScreen extends HookConsumerWidget {
@@ -8,23 +10,49 @@ class ProductListScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final searchListenable = useValueNotifier(false);
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () => ref.read(productNotifierProvider.notifier).refresh(),
         child: Scrollbar(
           child: CustomScrollView(
             slivers: [
-              SliverAppBar.medium(
+              SliverAppBar(
+                snap: true,
+                floating: true,
                 leading: IconButton.filled(
                   onPressed: () {},
                   icon: const Icon(Icons.person_3),
                   tooltip: 'Profile',
                 ),
-                title: const Text('Products'),
+                title: HookBuilder(
+                  builder: (context) {
+                    final isSearch = useValueListenable(searchListenable);
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 400),
+                      child: isSearch
+                        ? PopScope(
+                          canPop: false,
+                          onPopInvoked: (canPop) {
+                            if (canPop) {
+                              return;
+                            }
+                            searchListenable.value = false;
+                          },
+                          child: const ProductSearchBar(),
+                        )
+                        : const Text('Products'),
+                    );
+                  },
+                ),
                 actions: [
                   IconButton.filledTonal(
-                    onPressed: () {},
-                    icon: const Icon(Icons.search),
+                    tooltip: 'Search',
+                    onPressed: () {
+                      searchListenable.value =
+                          !searchListenable.value;
+                    },
+                    icon: SearchButton(notifier: searchListenable),
                   ),
                   IconButton(
                     onPressed: () {},

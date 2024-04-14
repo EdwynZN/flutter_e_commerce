@@ -1,4 +1,6 @@
+import 'package:flutter_e_commerce/features/products/application/controller/filter_provider.dart';
 import 'package:flutter_e_commerce/features/products/domain/model/product.dart';
+import 'package:flutter_e_commerce/features/products/domain/model/product_filter_options.dart';
 import 'package:flutter_e_commerce/features/products/domain/product_repository.dart';
 import 'package:flutter_e_commerce/features/products/infrastructure/data/platzi_product_api.dart';
 import 'package:flutter_e_commerce/features/products/infrastructure/implementation/platzi_product_repository.dart';
@@ -17,17 +19,14 @@ class ProductNotifier extends AutoDisposeAsyncNotifier<List<Product>> {
   @override
   FutureOr<List<Product>> build() {
     final repository = ref.watch(productRepositoryProvider);
-    return repository.all();
+    final search = ref.watch(filterNotifierProvider);
+    return repository.all(filter: ProductFilterOptions(title: search));
   }
 
   Future<void> refresh() async {
     if (state.isRefreshing) {
       return;
     }
-    state = const AsyncLoading<List<Product>>()
-        .copyWithPrevious(state, isRefresh: true);
-    final repository = ref.read(productRepositoryProvider);
-    final newState = await AsyncValue.guard(repository.all);
-    state = newState.copyWithPrevious(state, isRefresh: false);
+    ref.invalidateSelf();
   }
 }
