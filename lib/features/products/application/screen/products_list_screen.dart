@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_e_commerce/common/widget/avatar_user.dart';
 import 'package:flutter_e_commerce/features/products/application/controller/products_provider.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/product_tile.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/search_bar.dart';
@@ -19,11 +20,12 @@ class ProductListScreen extends HookConsumerWidget {
             slivers: [
               SliverAppBar(
                 pinned: true,
-                leading: IconButton.filledTonal(
+                leading: const UserAvatar(),
+                /* leading: IconButton.filledTonal(
                   onPressed: () {},
                   icon: const Icon(Icons.person_3),
                   tooltip: 'Profile',
-                ),
+                ), */
                 title: HookBuilder(
                   builder: (context) {
                     final isSearch = useValueListenable(searchListenable);
