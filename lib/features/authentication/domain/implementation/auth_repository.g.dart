@@ -22,7 +22,7 @@ final platziUserApiProvider = Provider<PlatziUserApi>.internal(
 
 typedef PlatziUserApiRef = ProviderRef<PlatziUserApi>;
 String _$credentialLocalStorageHash() =>
-    r'20d7f4623bc4b1d03dbbaf6147b9b185bf10c74e';
+    r'f4a127eaeb3988cb354c0b8a8ba6adccc1c421a9';
 
 /// See also [credentialLocalStorage].
 @ProviderFor(credentialLocalStorage)

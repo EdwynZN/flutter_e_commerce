@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/common/widget/avatar_user.dart';
+import 'package:flutter_e_commerce/common/widget/car_icon.dart';
 import 'package:flutter_e_commerce/features/products/application/controller/products_provider.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/product_tile.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/search_bar.dart';
@@ -21,28 +22,23 @@ class ProductListScreen extends HookConsumerWidget {
               SliverAppBar(
                 pinned: true,
                 leading: const UserAvatar(),
-                /* leading: IconButton.filledTonal(
-                  onPressed: () {},
-                  icon: const Icon(Icons.person_3),
-                  tooltip: 'Profile',
-                ), */
                 title: HookBuilder(
                   builder: (context) {
                     final isSearch = useValueListenable(searchListenable);
                     return AnimatedSwitcher(
                       duration: const Duration(milliseconds: 400),
                       child: isSearch
-                        ? PopScope(
-                          canPop: false,
-                          onPopInvoked: (canPop) {
-                            if (canPop) {
-                              return;
-                            }
-                            searchListenable.value = false;
-                          },
-                          child: const ProductSearchBar(),
-                        )
-                        : const Text('Products'),
+                          ? PopScope(
+                              canPop: false,
+                              onPopInvoked: (canPop) {
+                                if (canPop) {
+                                  return;
+                                }
+                                searchListenable.value = false;
+                              },
+                              child: const ProductSearchBar(),
+                            )
+                          : const Text('Products'),
                     );
                   },
                 ),
@@ -50,15 +46,11 @@ class ProductListScreen extends HookConsumerWidget {
                   IconButton(
                     tooltip: 'Search',
                     onPressed: () {
-                      searchListenable.value =
-                          !searchListenable.value;
+                      searchListenable.value = !searchListenable.value;
                     },
                     icon: SearchButton(notifier: searchListenable),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.shopping_cart),
-                  ),
+                  const CartIcon(),
                 ],
               ),
               const _SliverProductsList(),
