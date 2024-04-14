@@ -17,23 +17,7 @@ enum _SessionEnum { isLoggedIn, needsAuth }
 GoRouter router(RouterRef ref) {
   final listenable = ValueNotifier<_SessionEnum?>(null);
 
-  ref.listen(
-    authServiceProvider,
-    (previous, next) {
-      listenable.value = next.maybeMap(
-        data: (data) => switch (data.value) {
-          NoSession() => _SessionEnum.needsAuth,
-          OAuthSession() => _SessionEnum.isLoggedIn,
-        },
-        error: (error) =>
-            error.hasValue ? listenable.value : _SessionEnum.needsAuth,
-        orElse: () => listenable.value,
-      );
-    },
-  );
-
-  ref.onDispose(listenable.dispose);
-  return GoRouter(
+  final router = GoRouter(
     refreshListenable: listenable,
     debugLogDiagnostics: false,
     errorBuilder: (_, __) => const Material(),
@@ -50,7 +34,7 @@ GoRouter router(RouterRef ref) {
         _SessionEnum.needsAuth =>
           path.startsWith('/auth') ? null : '/auth/sign-in',
         _SessionEnum.isLoggedIn =>
-          path.startsWith('/auth') ? '/home/products' : null,
+          path.startsWith('/auth') || path == '/' ? '/home/products' : null,
       };
     },
     routes: [
@@ -84,8 +68,8 @@ GoRouter router(RouterRef ref) {
                 redirect: (context, state) {
                   final id = state.pathParameters['id'];
                   return id == null || int.tryParse(id) == null
-                    ? RouteName.products
-                    : null;
+                      ? RouteName.products
+                      : null;
                 },
                 builder: (context, state) {
                   return ProductScreen(
@@ -104,4 +88,70 @@ GoRouter router(RouterRef ref) {
       ),
     ],
   );
+
+  /* ref.listen(
+    authServiceProvider,
+    (previous, next) {
+      listenable.value = next.maybeMap(
+        data: (data) => switch (data.value) {
+          NoSession() => _SessionEnum.needsAuth,
+          OAuthSession() => _SessionEnum.isLoggedIn,
+        },
+        error: (error) =>
+            error.hasValue ? listenable.value : _SessionEnum.needsAuth,
+        orElse: () => listenable.value,
+      );
+    },
+  ); */
+
+  /// This is a hacky way to bypass go router redirections, using a listenable
+  /// in go_router can redirect the last route to the desirable path, but the 
+  /// rest of pages still remains
+  /// 
+  /// With this we assure that if a change in authentication happens the stack 
+  /// is cleared before replacing the remaining route
+  /// 
+  ref.listen(
+    authServiceProvider,
+    (previous, next) {
+      final previousSession = listenable.value;
+      final nextSession = next.maybeMap(
+        data: (data) => switch (data.value) {
+          NoSession() => _SessionEnum.needsAuth,
+          OAuthSession() => _SessionEnum.isLoggedIn,
+        },
+        error: (error) =>
+            error.hasValue ? listenable.value : _SessionEnum.needsAuth,
+        orElse: () => listenable.value,
+      );
+      if (previousSession == nextSession) {
+        return;
+      }
+      final path = router.routerDelegate.currentConfiguration.uri.path;
+      switch (nextSession) {
+        case _SessionEnum.needsAuth:
+          if (!path.startsWith('/auth')) {
+            while (router.canPop()) {
+              router.pop();
+            }
+          }
+          break;
+        case _SessionEnum.isLoggedIn:
+          if (path.startsWith('/auth') || path == '/') {
+            while (router.canPop()) {
+              router.pop();
+            }
+          }
+          break;
+        case null:
+        default:
+          break;
+      }
+      listenable.value = nextSession;
+    },
+    fireImmediately: true,
+  );
+  ref.onDispose(listenable.dispose);
+
+  return router;
 }

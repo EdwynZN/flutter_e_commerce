@@ -16,9 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 Credential _$CredentialFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
-    case 'default':
+    case 'password':
       return EmailAuthCredential.fromJson(json);
-    case 'refreshToken':
+    case 'refresh_token':
       return RefreshTokenCredential.fromJson(json);
 
     default:
@@ -176,7 +176,7 @@ class _$EmailAuthCredentialImpl implements EmailAuthCredential {
       {@JsonKey(required: true, disallowNullValue: true) required this.email,
       @JsonKey(required: true, disallowNullValue: true) required this.password,
       final String? $type})
-      : $type = $type ?? 'default';
+      : $type = $type ?? 'password';
 
   factory _$EmailAuthCredentialImpl.fromJson(Map<String, dynamic> json) =>
       _$$EmailAuthCredentialImplFromJson(json);
@@ -379,7 +379,7 @@ class _$RefreshTokenCredentialImpl implements RefreshTokenCredential {
       @JsonKey(required: true, disallowNullValue: true)
       required this.refreshToken,
       final String? $type})
-      : $type = $type ?? 'refreshToken';
+      : $type = $type ?? 'refresh_token';
 
   factory _$RefreshTokenCredentialImpl.fromJson(Map<String, dynamic> json) =>
       _$$RefreshTokenCredentialImplFromJson(json);

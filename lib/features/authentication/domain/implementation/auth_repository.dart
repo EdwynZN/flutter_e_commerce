@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/exception/auth_exception.dart';
+import 'package:flutter_e_commerce/features/authentication/domain/implementation/secure_local_storage.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/credential.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/oauth.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/user.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/service/auth_local_repository.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/service/auth_repository.dart';
 import 'package:flutter_e_commerce/features/authentication/infrastructure/data/platzi_auth_api.dart';
-import 'package:flutter_e_commerce/features/authentication/domain/implementation/memory_local_storage.dart';
 import 'package:flutter_e_commerce/shared/dio_provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_repository.g.dart';
@@ -24,7 +25,7 @@ PlatziUserApi platziUserApi(PlatziUserApiRef ref) {
 @Riverpod(keepAlive: true)
 AuthenticationLocalStorage credentialLocalStorage(
   CredentialLocalStorageRef ref,
-) => MemAuthenticationStorage();
+) => const SecureAuthenticationStorage(FlutterSecureStorage());
 
 @Riverpod(keepAlive: true)
 AuthenticationRepository authRepository(AuthRepositoryRef ref) {

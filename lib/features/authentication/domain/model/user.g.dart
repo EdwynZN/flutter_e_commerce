@@ -27,3 +27,19 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'email': instance.email,
       'avatar': instance.photoURL,
     };
+
+_$UserCredentialImpl _$$UserCredentialImplFromJson(Map<String, dynamic> json) =>
+    _$UserCredentialImpl(
+      oAuth: json['oAuth'] == null
+          ? null
+          : OAuth.fromJson(json['oAuth'] as Map<String, dynamic>),
+      credential:
+          Credential.fromJson(json['credential'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$UserCredentialImplToJson(
+        _$UserCredentialImpl instance) =>
+    <String, dynamic>{
+      'oAuth': instance.oAuth,
+      'credential': instance.credential,
+    };

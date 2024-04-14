@@ -24,4 +24,6 @@ class UserCredential with _$UserCredential {
     OAuth? oAuth,
     required Credential credential,
   }) = _UserCredential;
+
+  factory UserCredential.fromJson(Map<String, dynamic> json) => _$UserCredentialFromJson(json);
 }

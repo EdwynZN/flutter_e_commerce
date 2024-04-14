@@ -233,11 +233,16 @@ abstract class _User implements User {
       throw _privateConstructorUsedError;
 }
 
+UserCredential _$UserCredentialFromJson(Map<String, dynamic> json) {
+  return _UserCredential.fromJson(json);
+}
+
 /// @nodoc
 mixin _$UserCredential {
   OAuth? get oAuth => throw _privateConstructorUsedError;
   Credential get credential => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UserCredentialCopyWith<UserCredential> get copyWith =>
       throw _privateConstructorUsedError;
@@ -348,9 +353,12 @@ class __$$UserCredentialImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$UserCredentialImpl implements _UserCredential {
   const _$UserCredentialImpl({this.oAuth, required this.credential});
+
+  factory _$UserCredentialImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserCredentialImplFromJson(json);
 
   @override
   final OAuth? oAuth;
@@ -372,6 +380,7 @@ class _$UserCredentialImpl implements _UserCredential {
                 other.credential == credential));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, oAuth, credential);
 
@@ -381,12 +390,22 @@ class _$UserCredentialImpl implements _UserCredential {
   _$$UserCredentialImplCopyWith<_$UserCredentialImpl> get copyWith =>
       __$$UserCredentialImplCopyWithImpl<_$UserCredentialImpl>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserCredentialImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _UserCredential implements UserCredential {
   const factory _UserCredential(
       {final OAuth? oAuth,
       required final Credential credential}) = _$UserCredentialImpl;
+
+  factory _UserCredential.fromJson(Map<String, dynamic> json) =
+      _$UserCredentialImpl.fromJson;
 
   @override
   OAuth? get oAuth;
