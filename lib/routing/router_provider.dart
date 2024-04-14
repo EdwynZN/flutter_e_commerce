@@ -3,6 +3,7 @@ import 'package:flutter_e_commerce/common/screen/splash.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/session.dart';
 import 'package:flutter_e_commerce/features/authentication/application/screen/login.dart';
 import 'package:flutter_e_commerce/features/authentication/application/controller/auth_provider.dart';
+import 'package:flutter_e_commerce/features/products/application/screen/detail_product_screen.dart';
 import 'package:flutter_e_commerce/features/products/application/screen/products_list_screen.dart';
 import 'package:flutter_e_commerce/routing/route_names.dart';
 import 'package:go_router/go_router.dart';
@@ -80,7 +81,17 @@ GoRouter router(RouterRef ref) {
               GoRoute(
                 path: ':id',
                 name: RouteName.productDetails,
-                builder: (context, state) => const Material(),
+                redirect: (context, state) {
+                  final id = state.pathParameters['id'];
+                  return id == null || int.tryParse(id) == null
+                    ? RouteName.products
+                    : null;
+                },
+                builder: (context, state) {
+                  return ProductScreen(
+                    id: int.parse(state.pathParameters['id']!),
+                  );
+                },
               ),
             ],
           ),

@@ -3,7 +3,7 @@ import 'package:flutter_e_commerce/features/products/domain/model/product.dart';
 import 'package:flutter_e_commerce/features/products/domain/model/product_filter_options.dart';
 import 'package:flutter_e_commerce/features/products/domain/product_repository.dart';
 import 'package:flutter_e_commerce/features/products/infrastructure/data/platzi_product_api.dart';
-import 'package:flutter_e_commerce/features/products/infrastructure/implementation/platzi_product_repository.dart';
+import 'package:flutter_e_commerce/features/products/domain/implementation/platzi_product_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'products_provider.g.dart';

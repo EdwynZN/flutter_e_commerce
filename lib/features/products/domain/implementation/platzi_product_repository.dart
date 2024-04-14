@@ -1,3 +1,4 @@
+import 'package:flutter_e_commerce/features/products/domain/exception/product_exception.dart';
 import 'package:flutter_e_commerce/features/products/infrastructure/data/platzi_product_api.dart';
 import 'package:flutter_e_commerce/features/products/domain/model/product.dart';
 import 'package:flutter_e_commerce/features/products/domain/model/product_filter_options.dart';
@@ -14,7 +15,11 @@ class PlatziProductRepository implements ProductRepository {
   }
 
   @override
-  Future<Product?> detail({required int id}) {
-    return _api.product(id: id);
+  Future<Product> detail({required int id}) async {
+    final product = await _api.product(id: id);
+    if (product == null) {
+      throw ProductNotFoundException(id: id);
+    }
+    return product;
   }
 }

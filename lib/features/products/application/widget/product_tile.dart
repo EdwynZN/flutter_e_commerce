@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/no_image_product.dart';
+import 'package:flutter_e_commerce/features/products/application/widget/price_container.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/thumb_image.dart';
 import 'package:flutter_e_commerce/features/products/domain/model/product.dart';
 import 'package:flutter_e_commerce/routing/route_names.dart';
 import 'package:flutter_e_commerce/utils/constraints.dart';
-import 'package:flutter_e_commerce/utils/num_extensions.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 
@@ -117,33 +117,13 @@ class _LateralAssetPrice extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final Color discountColor = theme.colorScheme.secondaryContainer;
-    final Widget priceWidget = Container(
-      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16.0),
-      decoration: ShapeDecoration(
-        color: discountColor,
-        shape: const StadiumBorder(),
-      ),
-      child: Text(
-        '\$ ${price.thousandSeparator(decimalPad: 2)}',
-        style: TextStyle(
-          color: theme.colorScheme.onSecondaryContainer,
-          fontSize: 16.0,
-          letterSpacing: 0.15,
-          fontWeight: FontWeight.normal,
-        ),
-        maxLines: 1,
-      ),
-    );
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _AssetDeal(productImage: image),
         gap8,
-        priceWidget,
+        PriceChip(price: price),
       ],
     );
   }

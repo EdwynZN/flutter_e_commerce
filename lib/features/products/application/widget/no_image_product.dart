@@ -12,7 +12,7 @@ class NoImapePreviewProduct extends StatelessWidget {
         Icon(Icons.image_not_supported),
         gap8,
         FittedBox(
-          fit: BoxFit.fitHeight,
+          fit: BoxFit.scaleDown,
           child: Text(
             'No preview available',
             textAlign: TextAlign.center,

@@ -18,9 +18,8 @@ class ProductListScreen extends HookConsumerWidget {
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                snap: true,
-                floating: true,
-                leading: IconButton.filled(
+                pinned: true,
+                leading: IconButton.filledTonal(
                   onPressed: () {},
                   icon: const Icon(Icons.person_3),
                   tooltip: 'Profile',
@@ -46,7 +45,7 @@ class ProductListScreen extends HookConsumerWidget {
                   },
                 ),
                 actions: [
-                  IconButton.filledTonal(
+                  IconButton(
                     tooltip: 'Search',
                     onPressed: () {
                       searchListenable.value =

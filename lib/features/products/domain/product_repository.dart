@@ -4,5 +4,5 @@ import 'package:flutter_e_commerce/features/products/domain/model/product_filter
 abstract interface class ProductRepository {
   Future<List<Product>> all({ProductFilterOptions? filter});
 
-  Future<Product?> detail({required int id});
+  Future<Product> detail({required int id});
 }
