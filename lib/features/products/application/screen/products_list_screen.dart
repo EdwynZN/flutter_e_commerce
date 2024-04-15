@@ -85,8 +85,9 @@ class ProductListScreen extends HookConsumerWidget {
                   preferredSize: const Size.fromHeight(24.0),
                   child: Consumer(
                     builder: (context, ref, _) {
-                      final isRefreshing = ref.watch(productNotifierProvider
-                          .select((value) => value.isRefreshing || value.isReloading));
+                      final isRefreshing = ref.watch(
+                          productNotifierProvider.select((value) =>
+                              value.isRefreshing || value.isReloading));
                       if (isRefreshing) {
                         return const LinearProgressIndicator(minHeight: 2);
                       }

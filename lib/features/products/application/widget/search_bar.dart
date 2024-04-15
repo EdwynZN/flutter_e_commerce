@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_e_commerce/common/assets/resources.dart';
 import 'package:flutter_e_commerce/features/products/application/controller/filter_provider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 
 void _useDebounceSearch(
   TextEditingController controller,
@@ -48,7 +50,7 @@ class ProductSearchBar extends HookConsumerWidget {
         suffixIcon: IconButton(
           iconSize: 16.0,
           onPressed: () => textController.clear(),
-          icon: const Icon(Icons.clear),
+          icon: const Icon(Icons.clear_all_outlined),
           tooltip: 'Clear',
         ),
       ),
@@ -64,8 +66,9 @@ class SearchButton extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final animation = useAnimationController(
-      duration: const Duration(milliseconds: 400),
-      initialValue: notifier.value ? 1 : 0,
+      duration: const Duration(milliseconds: 700),
+      initialValue: notifier.value ? 0.5 : 0,
+      upperBound: 0.5,
     );
     useEffect(() {
       void updateAnimation() {
@@ -77,9 +80,19 @@ class SearchButton extends HookConsumerWidget {
       return () => notifier.removeListener(updateAnimation);
     }, [notifier, animation]);
 
-    return AnimatedIcon(
-      icon: AnimatedIcons.search_ellipsis,
-      progress: animation,
+    return Lottie.asset(
+      Animations.searchIcon,
+      alignment: Alignment.center,
+      animate: true,
+      height: 24.0,
+      width: 24.0,
+      addRepaintBoundary: true,
+      controller: animation,
+      fit: BoxFit.contain,
+      options: LottieOptions(
+        enableMergePaths: false,
+        enableApplyingOpacityToLayers: false,
+      ),
     );
   }
 }

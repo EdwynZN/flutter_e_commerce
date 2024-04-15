@@ -26,6 +26,7 @@ dependencies:
   flutter_cache_manager: ^3.3.1
   collection: ^1.18.0
   flex_color_scheme: ^7.3.1
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -43,3 +44,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/logos/
+    - assets/animations/
