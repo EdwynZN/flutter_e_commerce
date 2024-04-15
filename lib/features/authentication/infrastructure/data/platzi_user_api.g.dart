@@ -62,7 +62,8 @@ class _PlatziUserApi implements PlatziUserApi {
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
-    final _data = newUserInfo;
+    final _data = <String, dynamic>{};
+    _data.addAll(newUserInfo.toJson());
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
       method: 'POST',

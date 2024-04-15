@@ -131,7 +131,7 @@ class AuthService extends AsyncNotifier<Session>
     if (state.isLoading) {
       return;
     }
-    state = const AsyncLoading<Session>().copyWithPrevious(state);
+    state = const AsyncLoading<Session>();
     final newState = await AsyncValue.guard(() => _signUpUseCase.signupUser(newUser));
     state = newState;
   }

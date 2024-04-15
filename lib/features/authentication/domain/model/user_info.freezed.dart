@@ -26,7 +26,8 @@ mixin _$UserInfo {
   String get email => throw _privateConstructorUsedError;
   @JsonKey(required: true, disallowNullValue: true)
   String get password => throw _privateConstructorUsedError;
-  String? get avatar => throw _privateConstructorUsedError;
+  @JsonKey(defaultValue: 'https://i.imgur.com/xCvzudW.png')
+  String get avatar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,7 @@ abstract class $UserInfoCopyWith<$Res> {
       {@JsonKey(required: true, disallowNullValue: true) String name,
       @JsonKey(required: true, disallowNullValue: true) String email,
       @JsonKey(required: true, disallowNullValue: true) String password,
-      String? avatar});
+      @JsonKey(defaultValue: 'https://i.imgur.com/xCvzudW.png') String avatar});
 }
 
 /// @nodoc
@@ -62,7 +63,7 @@ class _$UserInfoCopyWithImpl<$Res, $Val extends UserInfo>
     Object? name = null,
     Object? email = null,
     Object? password = null,
-    Object? avatar = freezed,
+    Object? avatar = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -77,10 +78,10 @@ class _$UserInfoCopyWithImpl<$Res, $Val extends UserInfo>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: freezed == avatar
+      avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -97,7 +98,7 @@ abstract class _$$UserInfoImplCopyWith<$Res>
       {@JsonKey(required: true, disallowNullValue: true) String name,
       @JsonKey(required: true, disallowNullValue: true) String email,
       @JsonKey(required: true, disallowNullValue: true) String password,
-      String? avatar});
+      @JsonKey(defaultValue: 'https://i.imgur.com/xCvzudW.png') String avatar});
 }
 
 /// @nodoc
@@ -114,7 +115,7 @@ class __$$UserInfoImplCopyWithImpl<$Res>
     Object? name = null,
     Object? email = null,
     Object? password = null,
-    Object? avatar = freezed,
+    Object? avatar = null,
   }) {
     return _then(_$UserInfoImpl(
       name: null == name
@@ -129,10 +130,10 @@ class __$$UserInfoImplCopyWithImpl<$Res>
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: freezed == avatar
+      avatar: null == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -144,7 +145,8 @@ class _$UserInfoImpl implements _UserInfo {
       {@JsonKey(required: true, disallowNullValue: true) required this.name,
       @JsonKey(required: true, disallowNullValue: true) required this.email,
       @JsonKey(required: true, disallowNullValue: true) required this.password,
-      this.avatar});
+      @JsonKey(defaultValue: 'https://i.imgur.com/xCvzudW.png')
+      this.avatar = 'https://i.imgur.com/xCvzudW.png'});
 
   factory _$UserInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserInfoImplFromJson(json);
@@ -159,7 +161,8 @@ class _$UserInfoImpl implements _UserInfo {
   @JsonKey(required: true, disallowNullValue: true)
   final String password;
   @override
-  final String? avatar;
+  @JsonKey(defaultValue: 'https://i.imgur.com/xCvzudW.png')
+  final String avatar;
 
   @override
   String toString() {
@@ -204,7 +207,8 @@ abstract class _UserInfo implements UserInfo {
       required final String email,
       @JsonKey(required: true, disallowNullValue: true)
       required final String password,
-      final String? avatar}) = _$UserInfoImpl;
+      @JsonKey(defaultValue: 'https://i.imgur.com/xCvzudW.png')
+      final String avatar}) = _$UserInfoImpl;
 
   factory _UserInfo.fromJson(Map<String, dynamic> json) =
       _$UserInfoImpl.fromJson;
@@ -219,7 +223,8 @@ abstract class _UserInfo implements UserInfo {
   @JsonKey(required: true, disallowNullValue: true)
   String get password;
   @override
-  String? get avatar;
+  @JsonKey(defaultValue: 'https://i.imgur.com/xCvzudW.png')
+  String get avatar;
   @override
   @JsonKey(ignore: true)
   _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
