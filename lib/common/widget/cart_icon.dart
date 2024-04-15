@@ -17,7 +17,9 @@ class CartIcon extends ConsumerWidget {
       onPressed: () {
         context.pushNamed(RouteName.cart);
       },
-      icon: Icon(hasItems ? Icons.shopping_cart : Icons.shopping_cart_outlined),
+      isSelected: hasItems,
+      selectedIcon: const Icon(Icons.shopping_cart),
+      icon: const Icon(Icons.shopping_cart_outlined),
     );
   }
 }

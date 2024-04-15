@@ -14,7 +14,7 @@ class Cart with _$Cart {
 
   late final double total = items.fold(
     0,
-    (previousValue, element) => previousValue + element.price,
+    (previousValue, element) => previousValue + (element.price * element.quantity),
   );
 
   factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
