@@ -79,6 +79,9 @@ class _LoginForm extends HookConsumerWidget {
     );
     final theme = Theme.of(context);
     final decoration = InputDecorationTheme(
+      floatingLabelStyle: TextStyle(
+        color: theme.colorScheme.onPrimary,
+      ),
       focusedBorder: UnderlineInputBorder(
         borderSide: BorderSide(
           width: 2.0,

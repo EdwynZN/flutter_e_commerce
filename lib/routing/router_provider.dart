@@ -23,7 +23,7 @@ GoRouter router(RouterRef ref) {
     debugLogDiagnostics: false,
     errorBuilder: (_, __) => const Material(),
     routerNeglect: false,
-    initialLocation: '/',
+    initialLocation: '/splash',
     observers: const [],
     redirect: (context, state) {
       final session = listenable.value;
@@ -35,57 +35,55 @@ GoRouter router(RouterRef ref) {
         _SessionEnum.needsAuth =>
           path.startsWith('/auth') ? null : '/auth/sign-in',
         _SessionEnum.isLoggedIn =>
-          path.startsWith('/auth') || path == '/' ? '/home/products' : null,
+          path.startsWith('/auth') || path == '/splash' ? '/home/products' : null,
       };
     },
     routes: [
       GoRoute(
-        path: '/',
+        path: '/splash',
         builder: (context, state) => const SplashScreen(),
+      ),
+      ShellRoute(
+        builder: (context, state, child) => child,
         routes: [
-          ShellRoute(
-            builder: (context, state, child) => child,
-            routes: [
-              GoRoute(
-                path: 'auth/sign-in',
-                name: RouteName.login,
-                builder: (context, state) => const LoginScreen(),
-              ),
-              GoRoute(
-                path: 'auth/sign-up',
-                name: RouteName.signup,
-                builder: (context, state) => const Material(),
-              ),
-            ],
+          GoRoute(
+            path: '/auth/sign-in',
+            name: RouteName.login,
+            builder: (context, state) => const LoginScreen(),
           ),
           GoRoute(
-            path: 'home/products',
-            name: RouteName.products,
-            builder: (context, state) => const ProductListScreen(),
-            routes: [
-              GoRoute(
-                path: ':id',
-                name: RouteName.productDetails,
-                redirect: (context, state) {
-                  final id = state.pathParameters['id'];
-                  return id == null || int.tryParse(id) == null
-                      ? RouteName.products
-                      : null;
-                },
-                builder: (context, state) {
-                  return ProductScreen(
-                    id: int.parse(state.pathParameters['id']!),
-                  );
-                },
-              ),
-            ],
-          ),
-          GoRoute(
-            path: 'home/cart',
-            name: RouteName.cart,
-            builder: (context, state) => const CartScreen(),
+            path: '/auth/sign-up',
+            name: RouteName.signup,
+            builder: (context, state) => const Material(),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/home/products',
+        name: RouteName.products,
+        builder: (context, state) => const ProductListScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            name: RouteName.productDetails,
+            redirect: (context, state) {
+              final id = state.pathParameters['id'];
+              return id == null || int.tryParse(id) == null
+                  ? RouteName.products
+                  : null;
+            },
+            builder: (context, state) {
+              return ProductScreen(
+                id: int.parse(state.pathParameters['id']!),
+              );
+            },
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/home/cart',
+        name: RouteName.cart,
+        builder: (context, state) => const CartScreen(),
       ),
     ],
   );
@@ -138,7 +136,7 @@ GoRouter router(RouterRef ref) {
           }
           break;
         case _SessionEnum.isLoggedIn:
-          if (path.startsWith('/auth') || path == '/') {
+          if (path.startsWith('/auth') || path == '/splash') {
             while (router.canPop()) {
               router.pop();
             }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/routing/router_provider.dart';
+import 'package:flutter_e_commerce/shared/theme.dart';
 import 'package:flutter_e_commerce/utils/hive_initializer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,7 +18,10 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    final themeFlex = ref.watch(themeProvider);
     return MaterialApp.router(
+      theme: themeFlex.light,
+      darkTheme: themeFlex.dark,
       routerConfig: router,
       builder: (context, child) => _Unfocus(child: child),
     );
