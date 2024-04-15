@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/common/screen/splash.dart';
+import 'package:flutter_e_commerce/features/authentication/application/widget/auth_card_wrapper.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/session.dart';
 import 'package:flutter_e_commerce/features/authentication/application/screen/login.dart';
 import 'package:flutter_e_commerce/features/authentication/application/controller/auth_provider.dart';
@@ -34,8 +35,9 @@ GoRouter router(RouterRef ref) {
       return switch (session) {
         _SessionEnum.needsAuth =>
           path.startsWith('/auth') ? null : '/auth/sign-in',
-        _SessionEnum.isLoggedIn =>
-          path.startsWith('/auth') || path == '/splash' ? '/home/products' : null,
+        _SessionEnum.isLoggedIn => path.startsWith('/auth') || path == '/splash'
+            ? '/home/products'
+            : null,
       };
     },
     routes: [
@@ -44,7 +46,15 @@ GoRouter router(RouterRef ref) {
         builder: (context, state) => const SplashScreen(),
       ),
       ShellRoute(
-        builder: (context, state, child) => child,
+        builder: (_, state, child) {
+          return CardPresentationWrapper(
+            index: switch(state.uri.path) {
+              '/auth/sign-up' => 1,
+              _ => 0,
+            },
+            child: child,
+          );
+        },
         routes: [
           GoRoute(
             path: '/auth/sign-in',
@@ -104,12 +114,12 @@ GoRouter router(RouterRef ref) {
   ); */
 
   /// This is a hacky way to bypass go router redirections, using a listenable
-  /// in go_router can redirect the last route to the desirable path, but the 
+  /// in go_router can redirect the last route to the desirable path, but the
   /// rest of pages still remains
-  /// 
-  /// With this we assure that if a change in authentication happens the stack 
+  ///
+  /// With this we assure that if a change in authentication happens the stack
   /// is cleared before replacing the remaining route
-  /// 
+  ///
   ref.listen(
     authServiceProvider,
     (previous, next) {

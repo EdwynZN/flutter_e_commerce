@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_e_commerce/features/authentication/application/widget/auth_card_wrapper.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/exception/auth_exception.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/session.dart';
 import 'package:flutter_e_commerce/features/authentication/application/widget/credential_text_fields.dart';
@@ -34,22 +33,21 @@ class LoginScreen extends HookConsumerWidget {
         if (logged is AuthException) {
           message = logged.message;
         } else {
-          message = 'There was a problem, check your internet connection and try again';
+          message =
+              'There was a problem, check your internet connection and try again';
         }
         maybeMessenger
           ?..hideCurrentSnackBar()
           ..showSnackBar(SnackBar(content: Text(message)));
       },
     );
-    return CardPresentationWrapper(
-      child: Form(
-        child: AutofillGroup(
-          child: _LoginForm(
-            name: null,
-            password: password,
-            username: username,
-            hasCredentialsNotifier: hasCredentials,
-          ),
+    return Form(
+      child: AutofillGroup(
+        child: _LoginForm(
+          name: null,
+          password: password,
+          username: username,
+          hasCredentialsNotifier: hasCredentials,
         ),
       ),
     );
@@ -78,17 +76,7 @@ class _LoginForm extends HookConsumerWidget {
       authServiceProvider.select((value) => value is AsyncLoading<Session>),
     );
     final theme = Theme.of(context);
-    final decoration = InputDecorationTheme(
-      floatingLabelStyle: TextStyle(
-        color: theme.colorScheme.onPrimary,
-      ),
-      focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(
-          width: 2.0,
-          color: theme.colorScheme.onPrimary,
-        ),
-      ),
-    );
+    const decoration = InputDecorationTheme();
     return AbsorbPointer(
       absorbing: isLoading,
       child: ListView(
@@ -100,7 +88,7 @@ class _LoginForm extends HookConsumerWidget {
               controller: username,
               isRequired: true,
               padding: const EdgeInsets.only(bottom: 8.0),
-              style: theme.primaryTextTheme.bodyMedium,
+              style: theme.textTheme.bodyMedium,
               decorationTheme: decoration,
             )
           else ...[
@@ -117,7 +105,7 @@ class _LoginForm extends HookConsumerWidget {
           ],
           PasswordField(
             controller: password,
-            style: theme.primaryTextTheme.bodyMedium,
+            style: theme.textTheme.bodyMedium,
             decorationTheme: decoration,
           ),
           gap12,

@@ -3,19 +3,41 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_e_commerce/common/assets/resources.dart';
+import 'package:flutter_e_commerce/routing/route_names.dart';
+import 'package:go_router/go_router.dart';
 
 const double _stepWidth = 56.0;
 const double _aspectRatio = 16.0 / 10.0;
 
-class CardPresentationWrapper extends StatelessWidget {
+class CardPresentationWrapper extends StatefulWidget {
+  final int index;
   final Widget child;
   final double aspectRatio;
 
   const CardPresentationWrapper({
-   super.key,
+    super.key,
     required this.child,
+    required this.index,
     this.aspectRatio = _aspectRatio,
   });
+
+  @override
+  State<CardPresentationWrapper> createState() =>
+      _CardPresentationWrapperState();
+}
+
+class _CardPresentationWrapperState extends State<CardPresentationWrapper> {
+  void _onItemTapped(int index) {
+    switch (index) {
+      case 1:
+        context.goNamed(RouteName.signup);
+        break;
+      case 0:
+      default:
+        context.goNamed(RouteName.login);
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,64 +46,16 @@ class CardPresentationWrapper extends StatelessWidget {
     final bool canPop = Platform.isIOS && (parentRoute?.canPop ?? false);
     final brightness =
         ThemeData.estimateBrightnessForColor(theme.scaffoldBackgroundColor);
+    final color = theme.colorScheme.primaryContainer;
     final isPhone = MediaQuery.of(context).size.longestSide < 960;
-    Widget card = Theme(
-      data: theme.copyWith(
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: theme.elevatedButtonTheme.style?.copyWith(
-            shape: MaterialStateProperty.all(const StadiumBorder()),
-            elevation: MaterialStateProperty.all(0.0),
-            foregroundColor:
-                MaterialStateProperty.resolveWith<Color?>((states) {
-              if (states.contains(MaterialState.hovered) ||
-                  states.contains(MaterialState.pressed)) {
-                    return theme.colorScheme.onPrimary;
-                  }
-              if (states.contains(MaterialState.disabled)) {
-                return theme.disabledColor;
-              }
-              return null;
-            }),
-            backgroundColor:
-                MaterialStateProperty.resolveWith<Color?>((states) {
-              if (states.contains(MaterialState.hovered) ||
-                  states.contains(MaterialState.pressed)) {
-                return theme.primaryColorDark;
-              }
-              if (states.contains(MaterialState.disabled)) return null;
-              return theme.colorScheme.background;
-            }),
-          ),
-        ),
-        iconTheme: theme.primaryIconTheme,
-        inputDecorationTheme: theme.inputDecorationTheme.copyWith(
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          filled: false,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: theme.colorScheme.background),
-          ),
-          labelStyle: theme.primaryTextTheme.titleLarge,
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: theme.textButtonTheme.style?.copyWith(
-            shape: MaterialStateProperty.all(const StadiumBorder()),
-            overlayColor:
-                MaterialStateProperty.all(theme.canvasColor.withOpacity(0.25)),
-            backgroundColor: MaterialStateProperty.all(Colors.transparent),
-            foregroundColor: MaterialStateProperty.all<Color?>(
-              theme.colorScheme.onPrimary,
-            ),
-          ),
-        ),
-      ),
-      child: child,
-    );
+    Widget card = widget.child;
 
     Widget assetLogo = ColoredBox(
       color: theme.scaffoldBackgroundColor,
       child: Image.asset(
         Logos.platzi,
         fit: isPhone ? BoxFit.contain : null,
+        alignment: Alignment.topCenter,
       ),
     );
 
@@ -111,7 +85,7 @@ class CardPresentationWrapper extends StatelessWidget {
         card = ConstrainedBox(
           constraints: constraints,
           child: AspectRatio(
-            aspectRatio: 1.0 / aspectRatio,
+            aspectRatio: 1.0 / widget.aspectRatio,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -145,7 +119,7 @@ class CardPresentationWrapper extends StatelessWidget {
         card = ConstrainedBox(
           constraints: constraints.flipped,
           child: AspectRatio(
-            aspectRatio: aspectRatio,
+            aspectRatio: widget.aspectRatio,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -177,7 +151,7 @@ class CardPresentationWrapper extends StatelessWidget {
         );
       }
       card = DecoratedBox(
-        decoration: const BoxDecoration(color: Color(0xBF0D573E)),
+        decoration: BoxDecoration(color: color),
         child: SafeArea(
           minimum: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
           child: Center(
@@ -196,7 +170,7 @@ class CardPresentationWrapper extends StatelessWidget {
           Flexible(
             flex: 10,
             child: DecoratedBox(
-              decoration: const BoxDecoration(color: Color(0xBF0D573E)),
+              decoration: BoxDecoration(color: color),
               child: card,
             ),
           ),
@@ -209,13 +183,30 @@ class CardPresentationWrapper extends StatelessWidget {
         statusBarColor: Colors.transparent,
         statusBarIconBrightness:
             brightness == Brightness.light ? Brightness.dark : Brightness.light,
-        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarColor: theme.colorScheme.primary,
         statusBarBrightness: brightness,
         systemStatusBarContrastEnforced: false,
       ),
       child: Scaffold(
+        backgroundColor: color,
         resizeToAvoidBottomInset: false,
         body: card,
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              activeIcon: Icon(Icons.login),
+              icon: Icon(Icons.login_outlined),
+              label: 'Log in',
+            ),
+            BottomNavigationBarItem(
+              activeIcon: Icon(Icons.verified_user_rounded),
+              icon: Icon(Icons.verified_user_outlined),
+              label: 'Sign up',
+            ),
+          ],
+          currentIndex: widget.index,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
