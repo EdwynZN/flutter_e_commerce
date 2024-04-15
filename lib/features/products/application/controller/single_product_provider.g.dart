@@ -154,7 +154,7 @@ class _ProductProviderElement extends AutoDisposeFutureProviderElement<Product>
   int get id => (origin as ProductProvider).id;
 }
 
-String _$itemHash() => r'd76531378967f9c8c8acbbe844d8950addc41d75';
+String _$itemHash() => r'6175fb9c48fa949fb0a42bad0ef78ee718504507';
 
 /// See also [item].
 @ProviderFor(item)

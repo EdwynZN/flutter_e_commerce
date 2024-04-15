@@ -4,6 +4,7 @@ import 'package:flutter_e_commerce/features/products/domain/model/product_filter
 import 'package:flutter_e_commerce/features/products/domain/product_repository.dart';
 import 'package:flutter_e_commerce/features/products/infrastructure/data/platzi_product_api.dart';
 import 'package:flutter_e_commerce/features/products/domain/implementation/platzi_product_repository.dart';
+import 'package:flutter_e_commerce/shared/model/pagination.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'products_provider.g.dart';
@@ -16,17 +17,60 @@ ProductRepository productRepository(ProductRepositoryRef ref) {
 
 @riverpod
 class ProductNotifier extends AutoDisposeAsyncNotifier<List<Product>> {
+  late Pagination _pagination;
+  late ProductFilterOptions _filter;
+
   @override
   FutureOr<List<Product>> build() {
     final repository = ref.watch(productRepositoryProvider);
     final search = ref.watch(filterNotifierProvider);
-    return repository.all(filter: ProductFilterOptions(title: search));
+    _pagination = const Pagination();
+    _filter = ProductFilterOptions(title: search);
+    return repository.page(filter: _filter, pagination: _pagination);
   }
+
+  ProductRepository get _repository => ref.read(productRepositoryProvider);
+
+  bool get isLoading => state.isLoading || state.isRefreshing || state.isReloading;
+
+  bool get isLastPage => state.maybeWhen(
+        skipError: false,
+        skipLoadingOnRefresh: false,
+        skipLoadingOnReload: false,
+        data: (data) {
+          final realLength = (_pagination.offset + 1) * _pagination.limit;
+          return data.length < realLength;
+        },
+        orElse: () => false,
+      );
 
   Future<void> refresh() async {
     if (state.isRefreshing) {
       return;
     }
     ref.invalidateSelf();
+  }
+
+  Future<void> nextPage() async {
+    if (state.isLoading || isLastPage) {
+      return;
+    }
+    state = const AsyncLoading<List<Product>>().copyWithPrevious(
+      state,
+      isRefresh: false,
+    );
+    final newPagination = _pagination.nextPage();
+    final newPage = await AsyncValue.guard(() {
+      return _repository.page(filter: _filter, pagination: newPagination);
+    });
+    if (newPage is AsyncData<List<Product>>) {
+      _pagination = newPagination;
+    }
+    state = newPage.whenData(
+      (products) {
+        final previous = state.valueOrNull;
+        return previous == null ? products : [...previous, ...products];
+      },
+    ).copyWithPrevious(state, isRefresh: false);
   }
 }

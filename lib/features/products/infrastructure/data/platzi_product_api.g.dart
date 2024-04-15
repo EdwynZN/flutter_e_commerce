@@ -23,6 +23,8 @@ class _PlatziProductsApi implements PlatziProductsApi {
   @override
   Future<List<Product>> getProducts({
     String? title,
+    int? offset,
+    int? limit,
     int? minParice,
     int? maxParice,
     CancelToken? cancelToken,
@@ -30,6 +32,8 @@ class _PlatziProductsApi implements PlatziProductsApi {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'title': title,
+      r'offset': offset,
+      r'limit': limit,
       r'price_min': minParice,
       r'price_max': maxParice,
     };

@@ -3,6 +3,7 @@ import 'package:flutter_e_commerce/features/products/infrastructure/data/platzi_
 import 'package:flutter_e_commerce/features/products/domain/model/product.dart';
 import 'package:flutter_e_commerce/features/products/domain/model/product_filter_options.dart';
 import 'package:flutter_e_commerce/features/products/domain/product_repository.dart';
+import 'package:flutter_e_commerce/shared/model/pagination.dart';
 
 class PlatziProductRepository implements ProductRepository {
   final PlatziProductsApi _api;
@@ -10,8 +11,15 @@ class PlatziProductRepository implements ProductRepository {
   PlatziProductRepository({required PlatziProductsApi api}) : _api = api;
 
   @override
-  Future<List<Product>> all({ProductFilterOptions? filter}) {
-    return _api.getProducts(title: filter?.title);
+  Future<List<Product>> page({
+    ProductFilterOptions? filter,
+    Pagination pagination = const Pagination(),
+  }) {
+    return _api.getProducts(
+      title: filter?.title,
+      offset: pagination.offset,
+      limit: pagination.limit,
+    );
   }
 
   @override

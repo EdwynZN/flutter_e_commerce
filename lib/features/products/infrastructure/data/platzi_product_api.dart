@@ -19,6 +19,8 @@ abstract class PlatziProductsApi {
   @GET('')
   Future<List<Product>> getProducts({
     @Query('title') String? title,
+    @Query('offset') int? offset,
+    @Query('limit') int? limit,
     @Query('price_min') int? minParice,
     @Query('price_max') int? maxParice,
     @CancelRequest() CancelToken? cancelToken,
