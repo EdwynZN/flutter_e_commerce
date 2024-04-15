@@ -6,8 +6,8 @@ import 'package:flutter_e_commerce/features/authentication/domain/model/oauth.da
 import 'package:flutter_e_commerce/features/authentication/domain/model/user.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/service/auth_local_repository.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/service/auth_repository.dart';
+import 'package:flutter_e_commerce/features/authentication/infrastructure/data/auth_dio.dart';
 import 'package:flutter_e_commerce/features/authentication/infrastructure/data/platzi_auth_api.dart';
-import 'package:flutter_e_commerce/shared/dio_provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,10 +15,8 @@ part 'auth_repository.g.dart';
 
 @Riverpod(keepAlive: true)
 PlatziAuthApi platziUserApi(PlatziUserApiRef ref) {
-  final options = ref.watch(dioOptionsProvider);
-  final Dio dio = Dio(options);
+  final Dio dio = ref.watch(authDioProvider);
   final userApi = PlatziAuthApi(dio);
-  ref.onDispose(dio.close);
   return userApi;
 }
 
