@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_e_commerce/features/products/application/model/item.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/no_image_product.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/price_container.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/thumb_image.dart';
@@ -9,13 +10,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductTile extends StatelessWidget {
-  final Product product;
+  final Item item;
 
-  const ProductTile({super.key, required this.product});
+  const ProductTile({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final product = item.product;
     final insideBody = Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -76,6 +78,7 @@ class ProductTile extends StatelessWidget {
               SizedBox(
                 width: 120.0,
                 child: _LateralAssetPrice(
+                  quantity: item.quantity,
                   price: product.price,
                   image: product.images.firstOrNull,
                 ),
@@ -105,6 +108,7 @@ class ProductTile extends StatelessWidget {
 }
 
 class _LateralAssetPrice extends HookWidget {
+  final int quantity;
   final ProductImage? image;
   final double price;
 
@@ -113,6 +117,7 @@ class _LateralAssetPrice extends HookWidget {
     super.key,
     required this.price,
     required this.image,
+    required this.quantity,
   });
 
   @override
@@ -121,7 +126,10 @@ class _LateralAssetPrice extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _AssetDeal(productImage: image),
+        _AssetDeal(
+          productImage: image,
+          quantity: quantity > 1 ? quantity : null,
+        ),
         gap8,
         PriceChip(price: price),
       ],
@@ -130,21 +138,42 @@ class _LateralAssetPrice extends HookWidget {
 }
 
 class _AssetDeal extends StatelessWidget {
+  final int? quantity;
   final ProductImage? productImage;
 
   // ignore: unused_element
-  const _AssetDeal({super.key, this.productImage});
+  const _AssetDeal({super.key, this.productImage, this.quantity});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
     final asset = productImage == null
-        ? const NoImapePreviewProduct()
-        : ThumbImage(
-            imageUrl: productImage!.image,
-            alignment: Alignment.topCenter,
-            fit: BoxFit.cover,
-          );
+      ? const NoImapePreviewProduct()
+      : ThumbImage(
+          imageUrl: productImage!.image,
+          alignment: Alignment.topCenter,
+          fit: BoxFit.cover,
+        );
+    final Widget child;
+    if (quantity == null) {
+      child = asset;
+    } else {
+      child = Stack(
+        fit: StackFit.passthrough,
+        children: [
+          asset,
+          Positioned(
+            right: 0.0,
+            top: 0.0,
+            child: CircleAvatar(
+              backgroundColor: theme.tertiaryContainer,
+              radius: 12.0,
+              child: const Icon(Icons.shopping_cart, size: 12.0),
+            ),
+          ),
+        ],
+      );
+    }
 
     return ConstrainedBox(
       constraints: const BoxConstraints.tightFor(
@@ -159,7 +188,7 @@ class _AssetDeal extends StatelessWidget {
             theme.tertiary,
             2.0,
           ),
-          child: asset,
+          child: child,
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/common/widget/avatar_user.dart';
 import 'package:flutter_e_commerce/common/widget/cart_icon.dart';
+import 'package:flutter_e_commerce/features/products/application/controller/item_products_provider.dart';
 import 'package:flutter_e_commerce/features/products/application/controller/products_provider.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/product_tile.dart';
 import 'package:flutter_e_commerce/features/products/application/widget/search_bar.dart';
@@ -40,10 +41,10 @@ class ProductListScreen extends HookConsumerWidget {
       scrollController: scrollController,
     );
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () => ref.read(productNotifierProvider.notifier).refresh(),
-        child: Scrollbar(
-          controller: scrollController,
+      body: Scrollbar(
+        controller: scrollController,
+        child: RefreshIndicator(
+          onRefresh: () => ref.read(productNotifierProvider.notifier).refresh(),
           child: CustomScrollView(
             controller: scrollController,
             slivers: [
@@ -84,10 +85,8 @@ class ProductListScreen extends HookConsumerWidget {
                   preferredSize: const Size.fromHeight(24.0),
                   child: Consumer(
                     builder: (context, ref, _) {
-                      final isRefreshing = ref.watch(
-                        productNotifierProvider
-                        .select((value) => value.isRefreshing)
-                      );
+                      final isRefreshing = ref.watch(productNotifierProvider
+                          .select((value) => value.isRefreshing || value.isReloading));
                       if (isRefreshing) {
                         return const LinearProgressIndicator(minHeight: 2);
                       }
@@ -123,13 +122,15 @@ class _SliverProductsList extends ConsumerWidget {
         child: Center(
           child: TextButton(
             onPressed: () => ref.invalidate(productNotifierProvider),
-            child: Text('Error fecthing products',
+            child: Text(
+              'Error fecthing products',
               style: Theme.of(context).textTheme.titleMedium,
-            )
+            ),
           ),
         ),
       ),
-      data: (data) {
+      data: (_) {
+        final data = ref.watch(itemsPaginationProvider);
         if (data.isEmpty) {
           return SliverFillRemaining(
             hasScrollBody: false,
@@ -145,7 +146,7 @@ class _SliverProductsList extends ConsumerWidget {
         return SliverList.builder(
           itemBuilder: (context, index) {
             if (index < data.length) {
-              return ProductTile(product: data[index]);
+              return ProductTile(item: data[index]);
             } else if (index == data.length && asyncProducts.isLoading) {
               return const LinearProgressIndicator();
             }
