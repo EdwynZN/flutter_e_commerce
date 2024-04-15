@@ -14,7 +14,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_repository.g.dart';
 
 @Riverpod(keepAlive: true)
-PlatziAuthApi platziUserApi(PlatziUserApiRef ref) {
+PlatziAuthApi platziAuthApi(PlatziAuthApiRef ref) {
   final Dio dio = ref.watch(authDioProvider);
   final userApi = PlatziAuthApi(dio);
   return userApi;
@@ -28,7 +28,7 @@ AuthenticationLocalStorage credentialLocalStorage(
 
 @Riverpod(keepAlive: true)
 AuthenticationRepository authRepository(AuthRepositoryRef ref) {
-  final userApi = ref.watch(platziUserApiProvider);
+  final userApi = ref.watch(platziAuthApiProvider);
   final localStorage = ref.watch(credentialLocalStorageProvider);
   return AuthRepositoryImpl(localStorage, userApi);
 }

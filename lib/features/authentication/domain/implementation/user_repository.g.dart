@@ -6,7 +6,7 @@ part of 'user_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$platziUserApiHash() => r'29e1613410b0cf96cf68078de57f5a926ada544c';
+String _$platziUserApiHash() => r'3b8a28405f2adebde1892250b074e0b1846a2d3a';
 
 /// See also [platziUserApi].
 @ProviderFor(platziUserApi)

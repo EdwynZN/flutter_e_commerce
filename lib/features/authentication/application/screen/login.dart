@@ -14,11 +14,15 @@ class LoginScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final EmailAuthCredential? credential =
-        ref.watch(authServiceProvider.notifier.select((auth) => null));
+    final Credential? credential =
+        ref.watch(authServiceProvider.notifier.select((auth) => auth.session?.credential));
     final hasCredentials = useValueNotifier(credential != null);
     final username = useTextEditingController(text: credential?.email);
-    final password = useTextEditingController(text: credential?.password);
+    final password = useTextEditingController(
+      text: credential != null && credential is EmailAuthCredential 
+        ? credential.password
+        : null
+    );
     ref.listen<Object?>(
       authServiceProvider.select((a) => a.maybeWhen(
             error: (error, _) => error,

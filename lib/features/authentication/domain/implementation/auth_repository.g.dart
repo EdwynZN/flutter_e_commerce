@@ -6,21 +6,21 @@ part of 'auth_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$platziUserApiHash() => r'1b0448fb89e6f1930aae289ffd66fc15c314691a';
+String _$platziAuthApiHash() => r'cd623d8a5228806076fd98db2dafa6eadc13d317';
 
-/// See also [platziUserApi].
-@ProviderFor(platziUserApi)
-final platziUserApiProvider = Provider<PlatziAuthApi>.internal(
-  platziUserApi,
-  name: r'platziUserApiProvider',
+/// See also [platziAuthApi].
+@ProviderFor(platziAuthApi)
+final platziAuthApiProvider = Provider<PlatziAuthApi>.internal(
+  platziAuthApi,
+  name: r'platziAuthApiProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$platziUserApiHash,
+      : _$platziAuthApiHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef PlatziUserApiRef = ProviderRef<PlatziAuthApi>;
+typedef PlatziAuthApiRef = ProviderRef<PlatziAuthApi>;
 String _$credentialLocalStorageHash() =>
     r'f4a127eaeb3988cb354c0b8a8ba6adccc1c421a9';
 
@@ -38,7 +38,7 @@ final credentialLocalStorageProvider =
 );
 
 typedef CredentialLocalStorageRef = ProviderRef<AuthenticationLocalStorage>;
-String _$authRepositoryHash() => r'90676a00644dfa0dddb15ca1812cce203a16f693';
+String _$authRepositoryHash() => r'0edbaca084fc7476f33bb68a4d0dfee2cf4ff22e';
 
 /// See also [authRepository].
 @ProviderFor(authRepository)
