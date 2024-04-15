@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_e_commerce/features/authentication/domain/model/session.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/user_info.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/service/auth_repository.dart';
-import 'package:flutter_e_commerce/features/authentication/domain/service/auth_service.dart';
+import 'package:flutter_e_commerce/features/authentication/application/controller/auth_service.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/credential.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/user.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/implementation/auth_repository.dart';

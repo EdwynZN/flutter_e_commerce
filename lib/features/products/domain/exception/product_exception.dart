@@ -1,4 +1,4 @@
-import 'package:flutter_e_commerce/shared/domain_exception.dart';
+import 'package:flutter_e_commerce/shared/model/domain_exception.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'product_exception.freezed.dart';

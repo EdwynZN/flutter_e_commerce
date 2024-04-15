@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_e_commerce/features/authentication/application/controller/auth_provider.dart';
-import 'package:flutter_e_commerce/features/authentication/domain/service/auth_service.dart';
+import 'package:flutter_e_commerce/features/authentication/application/controller/auth_service.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/service/jwt_decoder_service.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
