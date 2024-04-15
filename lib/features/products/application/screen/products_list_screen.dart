@@ -57,13 +57,10 @@ class ProductListScreen extends HookConsumerWidget {
                     return AnimatedSwitcher(
                       duration: const Duration(milliseconds: 400),
                       child: isSearch
-                          ? PopScope(
-                              canPop: false,
-                              onPopInvoked: (canPop) {
-                                if (canPop) {
-                                  return;
-                                }
+                          ? BackButtonListener(
+                              onBackButtonPressed: () async {
                                 searchListenable.value = false;
+                                return true;
                               },
                               child: const ProductSearchBar(),
                             )
