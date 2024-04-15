@@ -8,8 +8,9 @@ import 'package:retrofit/retrofit.dart';
 part 'platzi_auth_api.g.dart';
 
 @RestApi(baseUrl: 'https://api.escuelajs.co/api/v1')
-abstract class PlatziUserApi {
-  factory PlatziUserApi(Dio dio, {String baseUrl}) = _PlatziUserApi;
+abstract class PlatziAuthApi {
+  factory PlatziAuthApi(Dio dio, {String baseUrl}) =
+      _PlatziAuthApi;
 
   @POST('/auth/login')
   Future<OAuth> login({

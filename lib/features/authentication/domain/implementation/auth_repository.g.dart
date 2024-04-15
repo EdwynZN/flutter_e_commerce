@@ -6,11 +6,11 @@ part of 'auth_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$platziUserApiHash() => r'29e1613410b0cf96cf68078de57f5a926ada544c';
+String _$platziUserApiHash() => r'1b0448fb89e6f1930aae289ffd66fc15c314691a';
 
 /// See also [platziUserApi].
 @ProviderFor(platziUserApi)
-final platziUserApiProvider = Provider<PlatziUserApi>.internal(
+final platziUserApiProvider = Provider<PlatziAuthApi>.internal(
   platziUserApi,
   name: r'platziUserApiProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,7 +20,7 @@ final platziUserApiProvider = Provider<PlatziUserApi>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef PlatziUserApiRef = ProviderRef<PlatziUserApi>;
+typedef PlatziUserApiRef = ProviderRef<PlatziAuthApi>;
 String _$credentialLocalStorageHash() =>
     r'f4a127eaeb3988cb354c0b8a8ba6adccc1c421a9';
 

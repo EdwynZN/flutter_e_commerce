@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_e_commerce/features/authentication/application/validation_form_hook.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/exception/auth_exception.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/session.dart';
 import 'package:flutter_e_commerce/features/authentication/application/widget/credential_text_fields.dart';
@@ -120,27 +121,6 @@ class _LoginForm extends HookConsumerWidget {
   }
 }
 
-ValueNotifier<bool> _useValidateForm(List<TextEditingController> controllers) {
-  final state =
-      useState(controllers.map((e) => e.text).every((cb) => cb.isNotEmpty));
-  useEffect(() {
-    void shouldActivate() {
-      state.value = controllers.map((e) => e.text).every((cb) => cb.isNotEmpty);
-    }
-
-    for (final c in controllers) {
-      c.addListener(shouldActivate);
-    }
-
-    return () {
-      for (final c in controllers) {
-        c.removeListener(shouldActivate);
-      }
-    };
-  }, controllers);
-  return state;
-}
-
 class _LoginButton extends HookConsumerWidget {
   final TextEditingController username;
   final TextEditingController password;
@@ -156,7 +136,7 @@ class _LoginButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAvailable = _useValidateForm([username, password]);
+    final isAvailable = useValidateForm([username, password]);
     final theme = Theme.of(context);
     return ElevatedButton(
       onPressed: !isAvailable.value || isLoading

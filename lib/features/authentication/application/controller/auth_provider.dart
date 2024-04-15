@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_e_commerce/features/authentication/domain/model/session.dart';
+import 'package:flutter_e_commerce/features/authentication/domain/model/user_info.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/service/auth_repository.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/service/auth_service.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/credential.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/user.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/implementation/auth_repository.dart';
+import 'package:flutter_e_commerce/features/authentication/domain/service/sign_up_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_provider.g.dart';
@@ -14,11 +16,13 @@ part 'auth_provider.g.dart';
 class AuthService extends AsyncNotifier<Session>
     implements AuthenticationService<Session> {
   late AuthenticationRepository _authRepository;
+  late SignUpUseCase _signUpUseCase;
   Completer<UserCredential>? _completer;
 
   @override
   Future<Session> build() async {
     _authRepository = ref.watch(authRepositoryProvider);
+    _signUpUseCase = ref.watch(signUpUseCaseProvider);
     return initializeApp();
   }
 
@@ -123,5 +127,12 @@ class AuthService extends AsyncNotifier<Session>
   }
 
   @override
-  Future<void> signUpUser(Credential credential) async {}
+  Future<void> signUpUser(UserInfo newUser) async {
+    if (state.isLoading) {
+      return;
+    }
+    state = const AsyncLoading<Session>().copyWithPrevious(state);
+    final newState = await AsyncValue.guard(() => _signUpUseCase.signupUser(newUser));
+    state = newState;
+  }
 }

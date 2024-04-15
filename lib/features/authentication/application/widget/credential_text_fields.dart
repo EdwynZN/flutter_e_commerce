@@ -4,6 +4,8 @@ import 'package:flutter_e_commerce/utils/text_field_validators.dart';
 import 'package:flutter_e_commerce/utils/text_input_formatter.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+enum UserType { name, email }
+
 class UserField extends HookWidget {
   final bool isRequired;
   final bool enabled;
@@ -14,11 +16,13 @@ class UserField extends HookWidget {
   final InputDecorationTheme? decorationTheme;
   final EdgeInsetsGeometry? padding;
   final TextStyle? style;
+  final UserType type;
 
   const UserField({
     super.key,
     this.isRequired = true,
     this.enabled = true,
+    this.type = UserType.email,
     this.controller,
     this.onSaved,
     this.initialValue,
@@ -37,13 +41,13 @@ class UserField extends HookWidget {
         initialValue: initialValue,
         controller: controller,
         textInputAction: textInputAction,
-        validator: (data) {
+        validator: isRequired ? (data) {
           final String trimmed = data!.trim();
           if (trimmed.isEmpty) {
             return 'required field';
           }
-          return Validator.validEmail(trimmed);
-        },
+          return type == UserType.email ? Validator.validEmail(trimmed) : null;
+        } : null,
         keyboardType: TextInputType.emailAddress,
         onSaved: onSaved,
         style: style,
@@ -55,8 +59,11 @@ class UserField extends HookWidget {
           const LowerCaseTextFormatter(),
         ],
         autofillHints: const [AutofillHints.email],
-        decoration: const InputDecoration(
-          labelText: 'E-mail',
+        decoration: InputDecoration(
+          labelText: switch(type) {
+            UserType.email => 'E-mail',
+            UserType.name => 'Name',
+          },
           isDense: true,
           helperText: '',
         ).applyDefaults(

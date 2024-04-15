@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_e_commerce/common/screen/splash.dart';
+import 'package:flutter_e_commerce/features/authentication/application/screen/signup.dart';
 import 'package:flutter_e_commerce/features/authentication/application/widget/auth_card_wrapper.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/session.dart';
 import 'package:flutter_e_commerce/features/authentication/application/screen/login.dart';
@@ -64,7 +65,7 @@ GoRouter router(RouterRef ref) {
           GoRoute(
             path: '/auth/sign-up',
             name: RouteName.signup,
-            builder: (context, state) => const Material(),
+            builder: (context, state) => const SignUpScreen(),
           ),
         ],
       ),

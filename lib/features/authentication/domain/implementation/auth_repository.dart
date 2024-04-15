@@ -14,10 +14,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'auth_repository.g.dart';
 
 @Riverpod(keepAlive: true)
-PlatziUserApi platziUserApi(PlatziUserApiRef ref) {
+PlatziAuthApi platziUserApi(PlatziUserApiRef ref) {
   final options = ref.watch(dioOptionsProvider);
   final Dio dio = Dio(options);
-  final userApi = PlatziUserApi(dio);
+  final userApi = PlatziAuthApi(dio);
   ref.onDispose(dio.close);
   return userApi;
 }
@@ -25,7 +25,8 @@ PlatziUserApi platziUserApi(PlatziUserApiRef ref) {
 @Riverpod(keepAlive: true)
 AuthenticationLocalStorage credentialLocalStorage(
   CredentialLocalStorageRef ref,
-) => const SecureAuthenticationStorage(FlutterSecureStorage());
+) =>
+    const SecureAuthenticationStorage(FlutterSecureStorage());
 
 @Riverpod(keepAlive: true)
 AuthenticationRepository authRepository(AuthRepositoryRef ref) {
@@ -36,9 +37,9 @@ AuthenticationRepository authRepository(AuthRepositoryRef ref) {
 
 class AuthRepositoryImpl implements AuthenticationRepository {
   final AuthenticationLocalStorage _localStorage;
-  final PlatziUserApi _userApi;
+  final PlatziAuthApi _authApi;
 
-  const AuthRepositoryImpl(this._localStorage, this._userApi);
+  const AuthRepositoryImpl(this._localStorage, this._authApi);
 
   @override
   Future<User> getUserInfo() async {
@@ -50,14 +51,14 @@ class AuthRepositoryImpl implements AuthenticationRepository {
         stackTrace: StackTrace.current,
       );
     }
-    final user = await _userApi.getUserInfo(authToken: oAuth.header);
+    final user = await _authApi.getUserInfo(authToken: oAuth.header);
     return user;
   }
 
   @override
   Future<OAuth> login(Credential credential) async {
     try {
-      final oAuth = await _userApi.login(credential: credential.toJson());
+      final oAuth = await _authApi.login(credential: credential.toJson());
       await _localStorage
           .write(UserCredential(credential: credential, oAuth: oAuth));
       return oAuth;
@@ -107,7 +108,7 @@ class AuthRepositoryImpl implements AuthenticationRepository {
     if (refresh == null) {
       throw RefreshCredentialFailure(stackTrace: StackTrace.current);
     }
-    oAuth = await _userApi.refresh(refresh: {"refreshToken": refresh});
+    oAuth = await _authApi.refresh(refresh: {"refreshToken": refresh});
     final credential = userCredential.credential;
     userCredential = userCredential.copyWith(
       oAuth: oAuth,

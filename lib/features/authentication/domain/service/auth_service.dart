@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/session.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/exception/auth_exception.dart';
+import 'package:flutter_e_commerce/features/authentication/domain/model/user_info.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/service/jwt_decoder_service.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/credential.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/oauth.dart';
@@ -39,7 +40,7 @@ abstract class AuthenticationService<T extends Session> {
   Future<void> refreshToken();
 
   /// Signup user
-  Future<void> signUpUser(Credential credential);
+  Future<void> signUpUser(UserInfo newUser);
 }
 
 class AuthenticatorInterceptor<T extends Session> extends QueuedInterceptor {

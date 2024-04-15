@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'platzi_signup_api.dart';
+part of 'platzi_user_api.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'platzi_signup_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _PlatziSignUpApi implements PlatziSignUpApi {
-  _PlatziSignUpApi(
+class _PlatziUserApi implements PlatziUserApi {
+  _PlatziUserApi(
     this._dio, {
     this.baseUrl,
   }) {
@@ -21,8 +21,8 @@ class _PlatziSignUpApi implements PlatziSignUpApi {
   String? baseUrl;
 
   @override
-  Future<User> createUser({
-    required Map<String, dynamic> credential,
+  Future<UserAvailable> checkAvailability({
+    required Map<String, dynamic> email,
     CancelToken? cancelToken,
   }) async {
     final _extra = <String, dynamic>{};
@@ -30,7 +30,39 @@ class _PlatziSignUpApi implements PlatziSignUpApi {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(credential);
+    _data.addAll(email);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserAvailable>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/is-available',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = UserAvailable.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<User> createUser({
+    required UserInfo newUserInfo,
+    CancelToken? cancelToken,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = newUserInfo;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
       method: 'POST',
