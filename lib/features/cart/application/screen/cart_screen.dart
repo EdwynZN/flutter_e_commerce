@@ -112,71 +112,73 @@ class _PriceBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final total = '\$${totalPrice.thousandSeparator(decimalPad: 2)}';
-    return TonalCard(
-      margin: EdgeInsets.zero,
-      shape: const RoundedRectangleBorder(),
-      elevation: 6.0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Row(
-          children: [
-            FittedBox(
-              alignment: AlignmentDirectional.centerStart,
-              fit: BoxFit.fitWidth,
-              child: Text.rich(
-                TextSpan(
-                  text: 'Total: ',
-                  children: [
-                    TextSpan(
-                      text: total,
-                      style: textTheme.titleLarge,
-                    ),
-                  ],
-                ),
-                maxLines: 1,
-                textAlign: TextAlign.start,
-                style: textTheme.headlineMedium,
-              ),
-            ),
-            const Spacer(),
-            ElevatedButton.icon(
-              onPressed: () {
-                showDialog<bool>(
-                  context: context,
-                  barrierColor: Colors.black54,
-                  barrierDismissible: true,
-                  useRootNavigator: false,
-                  builder: (context) {
-                    final localizations = MaterialLocalizations.of(context);
-                    final theme = Theme.of(context);
-                    return AlertDialog(
-                      insetPadding: const EdgeInsets.symmetric(
-                        horizontal: 24.0,
-                        vertical: 16.0,
+    return SafeArea(
+      child: TonalCard(
+        margin: EdgeInsets.zero,
+        shape: const RoundedRectangleBorder(),
+        elevation: 6.0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              FittedBox(
+                alignment: AlignmentDirectional.centerStart,
+                fit: BoxFit.fitWidth,
+                child: Text.rich(
+                  TextSpan(
+                    text: 'Total: ',
+                    children: [
+                      TextSpan(
+                        text: total,
+                        style: textTheme.titleLarge,
                       ),
-                      alignment: Alignment.center,
-                      title: const Text('Go to checkout?'),
-                      actions: [
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            foregroundColor: theme.colorScheme.error,
+                    ],
+                  ),
+                  maxLines: 1,
+                  textAlign: TextAlign.start,
+                  style: textTheme.headlineMedium,
+                ),
+              ),
+              const Spacer(),
+              ElevatedButton.icon(
+                onPressed: () {
+                  showDialog<bool>(
+                    context: context,
+                    barrierColor: Colors.black54,
+                    barrierDismissible: true,
+                    useRootNavigator: false,
+                    builder: (context) {
+                      final localizations = MaterialLocalizations.of(context);
+                      final theme = Theme.of(context);
+                      return AlertDialog(
+                        insetPadding: const EdgeInsets.symmetric(
+                          horizontal: 24.0,
+                          vertical: 16.0,
+                        ),
+                        alignment: Alignment.center,
+                        title: const Text('Go to checkout?'),
+                        actions: [
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: theme.colorScheme.error,
+                            ),
+                            onPressed: () => Navigator.maybePop(context, false),
+                            child: Text(localizations.cancelButtonLabel),
                           ),
-                          onPressed: () => Navigator.maybePop(context, false),
-                          child: Text(localizations.cancelButtonLabel),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Navigator.maybePop(context, true),
-                          child: Text(localizations.okButtonLabel),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              icon: const Icon(Icons.shopping_cart_checkout_outlined),
-              label: const Text('Checkout'),
-            ),
-          ],
+                          ElevatedButton(
+                            onPressed: () => Navigator.maybePop(context, true),
+                            child: Text(localizations.okButtonLabel),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(Icons.shopping_cart_checkout_outlined),
+                label: const Text('Checkout'),
+              ),
+            ],
+          ),
         ),
       ),
     );

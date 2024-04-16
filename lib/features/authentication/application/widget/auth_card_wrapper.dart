@@ -52,10 +52,12 @@ class _CardPresentationWrapperState extends State<CardPresentationWrapper> {
     Widget card = widget.child;
 
     Widget assetLogo = ColoredBox(
-      color: theme.colorScheme.primaryContainer,
-      child: const Align(
-        alignment: Alignment.center,
-        child: FittedBox(fit: BoxFit.contain, child: FlutterLogo(size: 200)),
+      color: theme.scaffoldBackgroundColor,
+      child: const SafeArea(
+        child: Align(
+          alignment: Alignment.center,
+          child: FittedBox(fit: BoxFit.contain, child: FlutterLogo(size: 200)),
+        ),
       ),
     );
 
