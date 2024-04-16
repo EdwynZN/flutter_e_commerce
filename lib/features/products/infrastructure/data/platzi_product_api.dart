@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_e_commerce/features/products/domain/model/product.dart';
-import 'package:flutter_e_commerce/shared/dio_provider.dart';
+import 'package:flutter_e_commerce/shared/platzi_api_provider.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,8 +8,7 @@ part 'platzi_product_api.g.dart';
 
 @riverpod
 PlatziProductsApi platziProductsApi(PlatziProductsApiRef ref) {
-  final dio = ref.watch(dioProvider);
-  return PlatziProductsApi(dio);
+  return ref.watch(platziApiProvider).productsApi;
 }
 
 @RestApi(baseUrl: 'https://api.escuelajs.co/api/v1/products')
