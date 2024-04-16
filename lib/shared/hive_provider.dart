@@ -7,8 +7,3 @@ final hiveAuthProvider = Provider<Box<UserCredential>>(
   (_) => Hive.box<UserCredential>(credentialsBox),
   name: 'HiveAuth',
 );
-
-final hivePreferencesProvider = Provider<Box<Object>>(
-  (_) => Hive.box<Object>(preferencesBox),
-  name: 'HivePreferences',
-);

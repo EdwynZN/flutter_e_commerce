@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_e_commerce/features/cart/domain/model/cart.dart';
 import 'package:flutter_e_commerce/features/cart/domain/service/cart_repository.dart';
-import 'package:flutter_e_commerce/utils/hive_constants.dart';
+import 'package:flutter_e_commerce/shared/hive_boxes_name.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,7 +15,7 @@ CartRepository cartRepository(CartRepositoryRef ref) {
 class HiveCartRepository implements CartRepository {
   final Future<Box<PurchasedItem>> _box;
 
-  HiveCartRepository() : _box = Hive.openBox(cartBox);
+  HiveCartRepository() : _box = Hive.openBox<PurchasedItem>(cartBox);
 
   @override
   Future<Cart> getAll() async {
