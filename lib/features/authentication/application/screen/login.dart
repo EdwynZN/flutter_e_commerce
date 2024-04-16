@@ -14,15 +14,14 @@ class LoginScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Credential? credential =
-        ref.watch(authServiceProvider.notifier.select((auth) => auth.session?.credential));
+    final Credential? credential = ref.watch(authServiceProvider.notifier
+        .select((auth) => auth.session?.credential));
     final hasCredentials = useValueNotifier(credential != null);
     final username = useTextEditingController(text: credential?.email);
     final password = useTextEditingController(
-      text: credential != null && credential is EmailAuthCredential 
-        ? credential.password
-        : null
-    );
+        text: credential != null && credential is EmailAuthCredential
+            ? credential.password
+            : null);
     ref.listen<Object?>(
       authServiceProvider.select((a) => a.maybeWhen(
             error: (error, _) => error,
@@ -49,7 +48,6 @@ class LoginScreen extends HookConsumerWidget {
     return Form(
       child: AutofillGroup(
         child: _LoginForm(
-          name: null,
           password: password,
           username: username,
           hasCredentialsNotifier: hasCredentials,
@@ -60,7 +58,6 @@ class LoginScreen extends HookConsumerWidget {
 }
 
 class _LoginForm extends HookConsumerWidget {
-  final String? name;
   final TextEditingController username;
   final TextEditingController password;
   final ValueNotifier<bool> hasCredentialsNotifier;
@@ -68,7 +65,6 @@ class _LoginForm extends HookConsumerWidget {
   const _LoginForm({
     // ignore: unused_element
     super.key,
-    this.name,
     required this.password,
     required this.username,
     required this.hasCredentialsNotifier,
@@ -97,10 +93,7 @@ class _LoginForm extends HookConsumerWidget {
               decorationTheme: decoration,
             )
           else ...[
-            _ExistentAccount(
-              name: name,
-              username: username.text,
-            ),
+            _ExistentAccount(username: username.text),
             Center(
               child: TextButton(
                 onPressed: () => hasCredentialsNotifier.value = false,
@@ -169,56 +162,24 @@ class _LoginButton extends HookConsumerWidget {
 
 class _ExistentAccount extends StatelessWidget {
   final String username;
-  final String? name;
-  late final String? _nickname;
 
-  _ExistentAccount({
+  const _ExistentAccount({
     // ignore: unused_element
     super.key,
     required this.username,
-    required this.name,
-  }) {
-    if (name == null || name!.isEmpty) {
-      _nickname = null;
-      return;
-    }
-    final listOfNames = name!.split(' ');
-    if (listOfNames.length > 2) {
-      _nickname = listOfNames.sublist(0, 2).join(' ');
-    } else {
-      _nickname = listOfNames.first;
-    }
-  }
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    late final Widget child;
-    if (name != null && _nickname != null) {
-      child = Column(
-        children: [
-          Text(
-            name!,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            username,
-            maxLines: 1,
-            overflow: TextOverflow.fade,
-          ),
-        ],
-      );
-    } else {
-      child = Text(
-        username,
-        maxLines: 1,
-        overflow: TextOverflow.fade,
-        textAlign: TextAlign.center,
-      );
-    }
+    final child = Text(
+      username,
+      maxLines: 1,
+      overflow: TextOverflow.fade,
+      textAlign: TextAlign.center,
+    );
     return DefaultTextStyle.merge(
-      style: theme.primaryTextTheme.bodyLarge,
+      style: theme.textTheme.titleLarge,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: child,

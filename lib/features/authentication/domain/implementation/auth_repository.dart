@@ -56,7 +56,7 @@ class AuthRepositoryImpl implements AuthenticationRepository {
   @override
   Future<OAuth> login(Credential credential) async {
     try {
-      final oAuth = await _authApi.login(credential: credential.toJson());
+      final oAuth = await _authApi.login(credential: credential);
       await _localStorage
           .write(UserCredential(credential: credential, oAuth: oAuth));
       return oAuth;

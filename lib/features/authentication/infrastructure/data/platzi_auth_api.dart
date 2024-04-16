@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_e_commerce/features/authentication/domain/model/credential.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/oauth.dart';
 import 'package:flutter_e_commerce/features/authentication/domain/model/user.dart';
 import 'package:retrofit/retrofit.dart';
@@ -14,7 +15,7 @@ abstract class PlatziAuthApi {
 
   @POST('/auth/login')
   Future<OAuth> login({
-    @Body() required Map<String, dynamic> credential,
+    @Body() required Credential credential,
     @CancelRequest() CancelToken? cancelToken,
   });
 

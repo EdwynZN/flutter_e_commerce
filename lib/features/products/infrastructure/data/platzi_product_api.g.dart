@@ -131,7 +131,7 @@ class _PlatziProductsApi implements PlatziProductsApi {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$platziProductsApiHash() => r'0082db1b9f4fc3d7fb6bab9c83fe4d54147240b9';
+String _$platziProductsApiHash() => r'830b1310c6868823121e8f8d2497fd51c4e37fce';
 
 /// See also [platziProductsApi].
 @ProviderFor(platziProductsApi)

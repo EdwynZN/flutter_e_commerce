@@ -38,7 +38,7 @@ final credentialLocalStorageProvider =
 );
 
 typedef CredentialLocalStorageRef = ProviderRef<AuthenticationLocalStorage>;
-String _$authRepositoryHash() => r'0edbaca084fc7476f33bb68a4d0dfee2cf4ff22e';
+String _$authRepositoryHash() => r'876b0540af3a9c200c6393679673b7b9b589453c';
 
 /// See also [authRepository].
 @ProviderFor(authRepository)

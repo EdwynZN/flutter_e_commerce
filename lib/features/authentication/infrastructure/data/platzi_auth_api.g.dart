@@ -22,7 +22,7 @@ class _PlatziAuthApi implements PlatziAuthApi {
 
   @override
   Future<OAuth> login({
-    required Map<String, dynamic> credential,
+    required Credential credential,
     CancelToken? cancelToken,
   }) async {
     final _extra = <String, dynamic>{};
@@ -30,7 +30,7 @@ class _PlatziAuthApi implements PlatziAuthApi {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(credential);
+    _data.addAll(credential.toJson());
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<OAuth>(Options(
       method: 'POST',
