@@ -8,7 +8,11 @@ part of 'item_products_provider.dart';
 
 String _$itemsPaginationHash() => r'39604379309db2cffc9e45a3982d45d6cf320809';
 
-/// See also [itemsPagination].
+/// productNotifierProvider returns and Async<List<Products>> and cartControllerProvider
+/// a Async<Cart>. This provider will combine both to get an actual list of products with the cart values as a DTO to the UI
+/// so this can be use it after checking that productNotifierProvider as valid data
+///
+/// Copied from [itemsPagination].
 @ProviderFor(itemsPagination)
 final itemsPaginationProvider = AutoDisposeProvider<List<Item>>.internal(
   itemsPagination,

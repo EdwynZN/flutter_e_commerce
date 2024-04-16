@@ -8,7 +8,14 @@ part of 'auth_dio.dart';
 
 String _$authDioHash() => r'9f08e99da01bda4654298bf56aaefa663b17e730';
 
-/// See also [authDio].
+/// This Dio instance is reserved to the data source of authentication services.
+/// This instance doesn't have authentication interceptors because:
+/// - it will casuse a circular dependency (this is to be used by the authentication feature)
+/// - it doesn't need it (because this is for authentication it doesn't make
+/// sense to send a auth header in the requests)
+/// For other instance check the [dio]
+///
+/// Copied from [authDio].
 @ProviderFor(authDio)
 final authDioProvider = Provider<Dio>.internal(
   authDio,

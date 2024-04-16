@@ -1,3 +1,5 @@
+import 'package:flutter_e_commerce/features/authentication/application/controller/auth_provider.dart';
+import 'package:flutter_e_commerce/features/authentication/domain/model/session.dart';
 import 'package:flutter_e_commerce/features/cart/domain/implementation/hive_cart_repository.dart';
 import 'package:flutter_e_commerce/features/cart/domain/model/cart.dart';
 import 'package:flutter_e_commerce/features/cart/domain/service/cart_repository.dart';
@@ -8,14 +10,25 @@ part 'cart_provider.g.dart';
 
 @riverpod
 class CartController extends AutoDisposeAsyncNotifier<Cart> {
+  late String _repoName;
+
   @override
   Future<Cart> build() async {
-    final repository = ref.watch(cartRepositoryProvider);
+    _repoName = ref.watch(authServiceProvider.select((value) {
+      return switch(value.valueOrNull) {
+        Session(credential: final c) => c?.email ?? '',
+        null => '',
+      };
+    }));
+    final repository = ref.watch(cartRepositoryProvider(_repoName));
+    if (state.isRefreshing) {
+      state = const AsyncLoading();
+    }
     final result = await repository.getAll();
     return result;
   }
 
-  CartRepository get _repository => ref.read(cartRepositoryProvider);
+  CartRepository get _repository => ref.read(cartRepositoryProvider(_repoName));
 
   Future<void> clearCart() async {
     if (state.isLoading) {

@@ -8,7 +8,9 @@ part of 'dio_provider.dart';
 
 String _$jwtValidatorHash() => r'0b3b7a877178c27418e8cd45d0f9117074cd245a';
 
-/// See also [jwtValidator].
+/// Internal service valdiator used to compare if a token is valid or not
+///
+/// Copied from [jwtValidator].
 @ProviderFor(jwtValidator)
 final jwtValidatorProvider = Provider<JWTValidator>.internal(
   jwtValidator,
@@ -22,7 +24,9 @@ final jwtValidatorProvider = Provider<JWTValidator>.internal(
 typedef JwtValidatorRef = ProviderRef<JWTValidator>;
 String _$dioOptionsHash() => r'655116ffcf9f27209d2458f556d1169b7521d1d0';
 
-/// See also [dioOptions].
+/// Default DioOptions used by the app
+///
+/// Copied from [dioOptions].
 @ProviderFor(dioOptions)
 final dioOptionsProvider = Provider<BaseOptions>.internal(
   dioOptions,
@@ -36,7 +40,12 @@ final dioOptionsProvider = Provider<BaseOptions>.internal(
 typedef DioOptionsRef = ProviderRef<BaseOptions>;
 String _$dioHash() => r'189d013e1871e37c6113e622f0a7dc072831992a';
 
-/// See also [dio].
+/// This instance is used by all the features that needs authentication:
+/// - products
+/// - it reads the auth controller to create an interceptor, which passes the
+/// authorizationHeader to all requests
+///
+/// Copied from [dio].
 @ProviderFor(dio)
 final dioProvider = Provider<Dio>.internal(
   dio,

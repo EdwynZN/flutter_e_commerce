@@ -8,7 +8,11 @@ part of 'auth_provider.dart';
 
 String _$authServiceHash() => r'90ea08fb98341bbedc984f6c67138359f7aca68d';
 
-/// See also [AuthService].
+/// Authentication controller
+///
+/// gets a Session from local secure storage and login/signup with user inputs
+///
+/// Copied from [AuthService].
 @ProviderFor(AuthService)
 final authServiceProvider =
     AsyncNotifierProvider<AuthService, Session>.internal(

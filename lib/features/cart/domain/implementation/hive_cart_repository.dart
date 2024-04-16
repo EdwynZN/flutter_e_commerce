@@ -5,17 +5,22 @@ import 'package:flutter_e_commerce/shared/hive_boxes_name.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'hive_cart_repository.g.dart';
-
-@riverpod
-CartRepository cartRepository(CartRepositoryRef ref) {
-  return HiveCartRepository();
-}
+/// Family provider to have a repository per user.
+/// Hive doesn't provide a way to query for column (or field) so having all items
+/// of a cart in a class wrapper with the email would be way harder because filtering 
+/// to create/delete would be by hand and not using a SQL language
+/// (EmailWrapper(string email, List<Item> items) in a Hive.openBox<EmailWrapper>('name))
+/// Instead we create a single box per email and avoid all that problem, in the end 
+/// how a data source works shouldn't be an impediment to implement a repository
+final cartRepositoryProvider = Provider.autoDispose.family<CartRepository, String>(
+  (ref, String name) => HiveCartRepository._(name),
+);
 
 class HiveCartRepository implements CartRepository {
   final Future<Box<PurchasedItem>> _box;
 
-  HiveCartRepository() : _box = Hive.openBox<PurchasedItem>(cartBox);
+  HiveCartRepository._(String subBox)
+      : _box = Hive.openBox<PurchasedItem>('$cartBox$subBox');
 
   @override
   Future<Cart> getAll() async {

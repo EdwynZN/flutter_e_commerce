@@ -465,7 +465,7 @@ void main() {
             platziAuthApiProvider.overrideWithValue(authApi),
             platziUserApiProvider.overrideWithValue(userApi),
             credentialLocalStorageProvider.overrideWithValue(localApi),
-            cartRepositoryProvider.overrideWithValue(cartRepository),
+            cartRepositoryProvider.overrideWith((_,__) => cartRepository),
             platziApiProvider.overrideWithValue(
               PlatziApi.test(productsApi: platziProductApi),
             ),
@@ -604,7 +604,7 @@ void main() {
             platziAuthApiProvider.overrideWithValue(authApi),
             platziUserApiProvider.overrideWithValue(userApi),
             credentialLocalStorageProvider.overrideWithValue(localApi),
-            cartRepositoryProvider.overrideWithValue(cartRepository),
+            cartRepositoryProvider.overrideWith((_, __) => cartRepository),
             platziApiProvider.overrideWithValue(
               PlatziApi.test(productsApi: platziProductApi),
             ),
