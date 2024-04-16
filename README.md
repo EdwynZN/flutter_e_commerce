@@ -96,4 +96,8 @@ The app doesn't need further configuration (no env files, firebase configuration
 1                      |             2
 :-------------------------:|:-------------------------:
 <img src="screenshots/Screenshot_1713247738.png" height="350"> <img src="screenshots/Screenshot_1713247742.png" height="350"> | <img src="screenshots/Screenshot_1713247748.png" height="350"> <img src="screenshots/Screenshot_1713247751.png" height="350">
-<img src="screenshots/Screenshot_1713294764.png" height="350"> <img src="screenshots/Screenshot_1713294757.png" height="350"> | 
+<img src="screenshots/Screenshot_1713294764.png" height="350"> <img src="screenshots/Screenshot_1713294757.png" height="350">
+
+## Video
+
+[![E-Commerce app video](https://img.youtube.com/vi/lb02i819Xec/0.jpg)](https://www.youtube.com/watch?v=lb02i819Xec)
