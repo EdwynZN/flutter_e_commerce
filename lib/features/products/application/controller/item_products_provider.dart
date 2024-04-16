@@ -6,6 +6,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'item_products_provider.g.dart';
 
+/// productNotifierProvider returns and Async<List<Products>> and cartControllerProvider
+/// a Async<Cart>. This provider will combine both to get an actual list of products with the cart values as a DTO to the UI
+/// so this can be use it after checking that productNotifierProvider as valid data 
 @riverpod
 List<Item> itemsPagination(ItemsPaginationRef ref) {
   final products =

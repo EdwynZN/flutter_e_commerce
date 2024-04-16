@@ -7,9 +7,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_provider.g.dart';
 
+/// Internal service valdiator used to compare if a token is valid or not
 @Riverpod(keepAlive: true)
 JWTValidator jwtValidator(JwtValidatorRef ref) => JWTValidator(JwtDecoder());
 
+/// Default DioOptions used by the app
 @Riverpod(keepAlive: true)
 BaseOptions dioOptions(DioOptionsRef ref) => BaseOptions(
     connectTimeout: const Duration(seconds: 10),
@@ -19,6 +21,10 @@ BaseOptions dioOptions(DioOptionsRef ref) => BaseOptions(
     headers: <String, dynamic>{"X-Requested-With": "XMLHttpRequest"},
   );
 
+/// This instance is used by all the features that needs authentication:
+/// - products
+/// - it reads the auth controller to create an interceptor, which passes the
+/// authorizationHeader to all requests
 @Riverpod(keepAlive: true)
 Dio dio(DioRef ref) {
   final options = ref.watch(dioOptionsProvider);

@@ -32,6 +32,10 @@ class UserRepositoryImpl implements UserRepository {
 
   const UserRepositoryImpl(this._localStorage, this._userApi);
 
+  /// To create a user first we have to ensure that the user doesn't exist already,
+  /// because we're using a Fake API when checking existence it will always return 
+  /// true and the repository will throw a [UserAvailableException]. To test signup
+  /// comment the lines 41 - 47 (ignore checking existence)
   @override
   Future<User> createUser(UserInfo user) async {
     final checkAvailability = await exists(user.email);

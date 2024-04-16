@@ -8,6 +8,10 @@ import 'package:flutter_e_commerce/features/products/application/widget/search_b
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+/// hook to read the scroll controller and notify the productNotifier that can
+/// try to fetch the next page if:
+///   - is not in a loading state
+///   - the remaining scrolling space is less that [viewportFactor] * viewportDimension (which usally is the height device)
 void _usePagination({
   required ProductNotifier pagingController,
   required ScrollController scrollController,
@@ -128,6 +132,9 @@ class _SliverProductsList extends ConsumerWidget {
         ),
       ),
       data: (_) {
+        /// after knowing productNotifierProvider has valid data we can read
+        /// itemsPaginationProvider to combine that data with the cart items and get
+        /// a list of items with more information
         final data = ref.watch(itemsPaginationProvider);
         if (data.isEmpty) {
           return SliverFillRemaining(

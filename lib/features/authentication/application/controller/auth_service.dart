@@ -43,6 +43,8 @@ abstract class AuthenticationService<T extends Session> {
   Future<void> signUpUser(UserInfo newUser);
 }
 
+/// Dio interceptor that validates and insert and authorizationHeader when possible from the auth controller.
+/// It also reads error responses and logout if the response is a 401 (Not authorized)
 class AuthenticatorInterceptor<T extends Session> extends QueuedInterceptor {
   final JWTValidator validator;
   final AuthenticationService<T> authService;

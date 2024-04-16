@@ -7,6 +7,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
+/// hook that waits [duration] before actually refresh the products 
+/// with a new search value, if the text changed before the time runs out,
+/// it will cancel and try again after that [duration] until it can send the 
+/// value to the filter provider
 void _useDebounceSearch(
   TextEditingController controller,
   FilterNotifier provider, [

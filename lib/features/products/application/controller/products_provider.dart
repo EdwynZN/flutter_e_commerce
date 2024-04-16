@@ -33,6 +33,9 @@ class ProductNotifier extends AutoDisposeAsyncNotifier<List<Product>> {
 
   bool get isLoading => state.isLoading || state.isRefreshing || state.isReloading;
 
+  /// it knows is the last page because the length of the list is less than 
+  /// the number of pages * the size of the page (it means the last apge retrieved 
+  /// less than what we wanted therefore there is no more data)
   bool get isLastPage => state.maybeWhen(
         skipError: false,
         skipLoadingOnRefresh: false,
@@ -51,6 +54,7 @@ class ProductNotifier extends AutoDisposeAsyncNotifier<List<Product>> {
     ref.invalidateSelf();
   }
 
+  /// if its loading or is [isLastPage] don't try to fetch the next one
   Future<void> nextPage() async {
     if (state.isLoading || isLastPage) {
       return;

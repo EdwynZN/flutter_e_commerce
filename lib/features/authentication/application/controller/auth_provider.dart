@@ -12,6 +12,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_provider.g.dart';
 
+/// Authentication controller
+/// 
+/// gets a Session from local secure storage and login/signup with user inputs
 @Riverpod(keepAlive: true)
 class AuthService extends AsyncNotifier<Session>
     implements AuthenticationService<Session> {

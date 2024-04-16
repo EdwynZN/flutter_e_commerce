@@ -9,6 +9,8 @@ import 'package:go_router/go_router.dart';
 const double _stepWidth = 56.0;
 const double _aspectRatio = 16.0 / 10.0;
 
+/// This widgets wraps the login and signup screen so the bottom bar can change routes
+/// while only the inner child updates. The UI will be mantained and only the form will change
 class CardPresentationWrapper extends StatefulWidget {
   final int index;
   final Widget child;
