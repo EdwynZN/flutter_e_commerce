@@ -80,3 +80,11 @@ There are multiple providers across the features subfolders (and shared). The id
 - Spider CLI configuration (name and route of files, allowed files per class, generate testings related to assets, etc)
 ---
 The app doesn't need further configuration (no env files, firebase configuration, etc) so as long as Flutter is installed with Android SDK or Xcode and an Emulator/Simulator or real device is at hand everything is good to go (`flutter run` in CMD)
+
+
+## Screenshots
+
+1                      |             2
+:-------------------------:|:-------------------------:
+<img src="screenshots/Screenshot_1713247738.png" height="350"> <img src="screenshots/Screenshot_1713247742.png" height="350"> | <img src="screenshots/Screenshot_1713247748.png" height="350"> <img src="screenshots/Screenshot_1713247751.png" height="350">
+<img src="screenshots/Screenshot_1713247754.png" height="350"> <img src="screenshots/Screenshot_1713247756.png" height="350"> | 
