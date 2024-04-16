@@ -16,8 +16,8 @@ class ListCartTile extends StatelessWidget {
     final q = item.quantity;
     final subtitle = 'Item'.toCountString(q);
     return ListTile(
-      title: Text(item.product.name),
-      subtitle: Text(subtitle),
+      title: Text(item.product.name, maxLines: 2),
+      subtitle: Text(subtitle, maxLines: 1),
       trailing: Text(
         '\$$price',
         maxLines: 1,
