@@ -16,6 +16,15 @@
 ### API
 [Platzi fake API](https://fakeapi.platzi.com/en/rest)
 
+##### Credentials
+To test login please use the test credentials:
+```
+email: john@mail.com
+password: changeme
+```
+
+---
+
 ### run `flutter pub run build_runner build` (with `--delete-conflicting-outputs` if there are any conflict files)
     - `watch` to continuosly rebuild at each
     - `build` for manually
@@ -60,7 +69,7 @@
 - The app has 3 features:
     - Authentication
         - Login and SignUp
-        - **Note**: to test signup read the [comment here](lib/features/authentication/domain/implementation/user_repository.dart)
+        - **Note**: to test signup read the [comment here](lib/features/authentication/domain/implementation/user_repository.dart) and beware that because the api is for testing the user created may not live too much (signing up today doesn't mean the user exists tomorrow)
     - Cart
         - save products and quantities
         - Persists locally
@@ -87,4 +96,4 @@ The app doesn't need further configuration (no env files, firebase configuration
 1                      |             2
 :-------------------------:|:-------------------------:
 <img src="screenshots/Screenshot_1713247738.png" height="350"> <img src="screenshots/Screenshot_1713247742.png" height="350"> | <img src="screenshots/Screenshot_1713247748.png" height="350"> <img src="screenshots/Screenshot_1713247751.png" height="350">
-<img src="screenshots/Screenshot_1713247754.png" height="350"> <img src="screenshots/Screenshot_1713247756.png" height="350"> | 
+<img src="screenshots/Screenshot_1713294764.png" height="350"> <img src="screenshots/Screenshot_1713294757.png" height="350"> | 

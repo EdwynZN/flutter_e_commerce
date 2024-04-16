@@ -30,9 +30,6 @@ use_references_list: false
 package: common/assets
 
 groups:
-  - path: assets/logos
-    class_name: Logos
-    types: [ .png, .jpg, .jpeg, .webp, .webm, .bmp ]
   - path: assets/animations
     class_name: Animations
     types: [ .json ]

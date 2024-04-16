@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_e_commerce/common/assets/resources.dart';
 import 'package:flutter_e_commerce/routing/route_names.dart';
 import 'package:go_router/go_router.dart';
 
@@ -53,11 +52,10 @@ class _CardPresentationWrapperState extends State<CardPresentationWrapper> {
     Widget card = widget.child;
 
     Widget assetLogo = ColoredBox(
-      color: theme.scaffoldBackgroundColor,
-      child: Image.asset(
-        Logos.platzi,
-        fit: isPhone ? BoxFit.contain : null,
-        alignment: Alignment.topCenter,
+      color: theme.colorScheme.primaryContainer,
+      child: const Align(
+        alignment: Alignment.center,
+        child: FittedBox(fit: BoxFit.contain, child: FlutterLogo(size: 200)),
       ),
     );
 
